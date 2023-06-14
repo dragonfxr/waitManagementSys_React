@@ -1,0 +1,12 @@
+Week 1:
+Form a team and name it. Select the Scrum Master. Create the Jira.
+Datemine the project topic and initially allocate tasks (frontend or backend).
+
+Week 2:
+Create the Github classroom for our group.
+As a frontend member, determine the frontend framework and scarffolding in the project.
+Build a primitive website.
+
+Week 3:
+Discussing specific function and how to realize it.
+Determine the format of interface JSON.
