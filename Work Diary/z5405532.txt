@@ -1,0 +1,14 @@
+Week1:
+Group formed and named. Selected Scrum Master. Created the Jira Site. Decided on the topic with other group members. Done some brainstorming on what the novel functions will be. 
+We also decided to split the group into two sub-groups and work on front end and back end separately.
+I'm the scrum master
+
+Week 2:
+We selected the framework that will be used in both front end and back end. We have started to build a very simple interface as a try, but haven't make it work yet.
+We have discussed the novel functions and comfirmed with the tutor.
+Started writing the proposal.
+Get used to Jira and GitHub. However, we faced some issue on pushing to GitHub, which found out to be the problem of the file.
+
+Week 3:
+Finshing up the proposal.
+Decides some data structure of some instances.
