@@ -1,0 +1,17 @@
+Week 1：
+1. Formed a group with teammates and chose a project
+2. Communicated with group members on functional issues
+3. Be familiarize with the use of jira
+
+
+Week 2:
+1. Determine Django as the back-end development framework
+2. Simple logic design and discussion of the Project
+3. Choose to use DRF to implement RESTful API
+4. Joined the GitClass group
+
+
+Week 3:
+1. Determined the data transfer format between the front and back end
+1. Write a simple API interface and upload it to github
+2. Complete the proposal
