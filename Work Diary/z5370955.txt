@@ -1,1 +1,13 @@
+Week1:
+1.Group formed and named. Choose the topic with other members.
+2.Created the Jira account and group and selected the scrum master.
+3.Group division (front-end and back-end), I am in the back-end group.
 
+Week2:
+1.Brainstormed the eight functions.
+2.Get ready to the github classroom.
+3.Selected Django as the framework in the back-end and started to learn it.
+
+Week3:
+1.Write the project proposal.
+2.Test the api.
