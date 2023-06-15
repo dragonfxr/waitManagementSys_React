@@ -6,8 +6,11 @@ function ManagerPage() {
 
     useEffect(() => {
         const fetchMenuData = async () => {
-            const response = await fetch('menu.json');
+            const response = await fetch('http://localhost:8000/menu/menus/', {
+                method: 'GET'
+            });
             const data = await response.json();
+            console.log('ss', data);
             setCategories(data);
         }
        fetchMenuData();
@@ -25,9 +28,9 @@ function ManagerPage() {
             <nav className="side-nav">
                 <ul>
                 {categories.map(category => (
-                <li>
-                    <a href={`/manager/menu/${category.name}`}>
-                    {category.name}
+                <li key={category.id}>
+                    <a href={`/manager/menu/${category.categoryName}`}>
+                    {category.categoryName}
                 </a>
                 </li>
                 ))}
