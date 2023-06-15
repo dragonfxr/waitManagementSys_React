@@ -7,13 +7,13 @@ capstone-project-9900h16aareyouhungry created by GitHub Classroom
 `pip install djangorestframework`
 `pip install django-cors-headers`
 
-(b)Update the model
+(b)Update the model:
 `python manage.py makemigrations`
 
-(c)Migrate settings
+(c)Migrate settings:
 `python manage.py migrate`
 
-(d)Run server
+(d)Run server:
 `python manage.py runserver`
 
 
