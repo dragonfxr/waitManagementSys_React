@@ -15,7 +15,10 @@ capstone-project-9900h16aareyouhungry created by GitHub Classroom
 (c)Migrate settings:  
 `python manage.py migrate`
 
-(d)Run server:  
+(d)Create superuser
+`python manage.py createsuperuser`
+
+(e)Run server:  
 `python manage.py runserver`
 
 
