@@ -10,9 +10,9 @@ We also need to install a library
 
 ## 1.Backend Configuration
 (a)Install some required Python libraries:  
-`pip install django`  
+`pip install django==3.1`  
 
-`pip install djangorestframework`  
+`pip install djangorestframework==3.12.0`  
 
 `pip install django-cors-headers`
 
@@ -28,6 +28,7 @@ We also need to install a library
 (e)Run server:  
 `python manage.py runserver`
 
+read backend in Swagger: http://127.0.0.1:8000/doc/
 
 ## 2.Fontend Configuration
 (a) Enter frontend folder:  
