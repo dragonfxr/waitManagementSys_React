@@ -15,3 +15,7 @@ Week 3:
 1. Determined the data transfer format between the front and back end
 1. Write a simple API interface and upload it to github
 2. Complete the proposal
+
+Week 4:
+1. Use swagger to create an api list
+2. 
