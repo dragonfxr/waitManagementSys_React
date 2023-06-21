@@ -12,7 +12,7 @@ class Menu(models.Model):
         return self.categoryName
 
     class Meta:
-        ordering = ['-ID']
+        ordering = ['-dishID']
         verbose_name = "Menu"
         verbose_name_plural = "Menus"
 
