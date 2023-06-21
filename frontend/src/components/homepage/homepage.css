@@ -1,0 +1,43 @@
+body {
+    background-image: url('./background.jpeg');
+    background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover;
+}
+
+.divButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+  }
+  
+.centeredButton {
+background-color: transparent;
+border: none;
+}
+
+.centeredButton:active {
+transform: scale(0.95);  
+transition: all 0.2s;
+}
+
+.centeredButton:hover {
+    transform: scale(0.95);  
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.customTitle {
+    margin-bottom: 10px;
+    cursor: pointer; 
+    transition: all 0.3s ease;
+    font-size: large;
+  }
+  
+  .customTitle:hover {
+    color: rgb(203, 151, 104);
+    transform: scale(1.1); 
+  }
+  
+  

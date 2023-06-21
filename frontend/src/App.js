@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import HomePage from "./components/homepage"
+import HomePage from "./components/homepage/homepage"
 import ManagerPage from './components/manager/managerPage';
 import CustomerPage from './components/customer/customerPage';
 import WaiterPage from './components/waiter/waiterPage';
