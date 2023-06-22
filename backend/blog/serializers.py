@@ -7,7 +7,6 @@ from .models import Menu, Order
 User = get_user_model()
 
 class MenuSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Menu
         fields = '__all__'
