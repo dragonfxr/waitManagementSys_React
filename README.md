@@ -8,6 +8,7 @@ djangorestframework 3.12.0
 We also need to install a library 
 `pip install drf-yasg2`
 `pip install drf-writable-nested`
+`pip install django-filter`
 
 If there is something wrong like this:
 
