@@ -1,4 +1,4 @@
-body {
+.background {
     background-image: url('./background.jpeg');
     background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Do not repeat the image */
