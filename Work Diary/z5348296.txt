@@ -10,3 +10,7 @@ Build a primitive website.
 Week 3:
 Discussing specific function and how to realize it.
 Determine the format of interface JSON.
+
+week 4:
+Homepage frontend completed.
+Further discussion about API development.
