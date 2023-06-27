@@ -24,7 +24,7 @@ function CategoryPage() {
     const MinusCount = (DishID) =>{
         setCount((prevNumbers) => ({
             ...prevNumbers,
-            [DishID]: (prevNumbers[DishID] || 0) - 1
+            [DishID]: prevNumbers[DishID] > 0 ? prevNumbers[DishID]  - 1 : 0
           }));
     };
 
