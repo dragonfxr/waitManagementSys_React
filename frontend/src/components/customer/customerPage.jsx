@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Menu, Layout } from 'antd';
+import { Menu, Layout, Button} from 'antd';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { BellOutlined, HomeOutlined, CloseCircleOutlined } from '@ant-design/icons';
+/* <link rel="stylesheet" href="customer.css" /> */
 
 function CustomerPage() {
     const [categories, setCategories] = useState([]);// store all dishes
@@ -46,8 +48,32 @@ function CustomerPage() {
                     </Menu>
                 </Sider>
                 <Layout style={{ marginLeft: 200 }}>
-                    <Header style={{ background: '#fff', padding: 0 }}>
+                    <Header style={{ background: '#fff', paddingLeft: 10 }}>
                         Table Number:
+                        <Button
+                            type="primary" danger
+                            shape="circle"
+                            size="large"
+                            icon={<BellOutlined />}
+                            onClick={() => alert("Ring the bell!")}
+                            title="Call for assistance"
+                        />
+                        <Button
+                            type="primary"
+                            shape="circle"
+                            size="large"
+                            icon={<HomeOutlined />}
+                            onClick={() => navigate(`/customer`)}
+                            title="Go back to home page"
+                        />
+                        <Button
+                            type="primary"
+                            shape="circle"
+                            size="large"
+                            icon={<CloseCircleOutlined />}
+                            onClick={() => navigate(`/`)}
+                            title="End ordering"
+                        />
                     </Header>
                     <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
                         <div style={{ padding: 24, background: '#fff', textAlign: 'center' }}>
