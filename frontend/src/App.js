@@ -5,6 +5,7 @@ import ManagerPage from './components/manager/managerPage';
 import CustomerPage from './components/customer/customerPage';
 import WaiterPage from './components/waiter/waiterPage';
 import KitchenPage from './components/kitchen/kitchenPage';
+import CategoryPage from './components/customer/categorypage';
 
 function App() {
   return (
@@ -14,7 +15,9 @@ function App() {
       <Routes>
         <Route path='/' element={<HomePage />}/>
         <Route path='/manager' element={<ManagerPage />}/>
-        <Route path='/customer' element={<CustomerPage />}/>
+        <Route path='/customer' element={<CustomerPage />}>
+          <Route path='menu/:categoryId' element={<CategoryPage />} />
+        </Route>
         <Route path='/waiter' element={<WaiterPage />}/>
         <Route path='/kitchen' element={<KitchenPage />}/>
 

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import './manager.css';
 
 function ManagerPage() {
@@ -13,32 +13,32 @@ function ManagerPage() {
             console.log('ss', data);
             setCategories(data);
         }
-       fetchMenuData();
+        fetchMenuData();
     }, [])
 
     console.log(categories);
     return (
         <>
-        <div>
-        manager page
-        </div>
-        <button>add new categories</button>
-        <div>show categories</div>
-        <div className="left-side-bar">
-            <nav className="side-nav">
-                <ul>
-                {categories.map(category => (
-                <li key={category.id}>
-                    <a href={`/manager/menu/${category.categoryName}`}>
-                    {category.categoryName}
-                </a>
-                </li>
-                ))}
-                </ul>
-            </nav>
-        </div>
-        
-        
+            <div>
+                manager page
+            </div>
+            <button>add new categories</button>
+            <div>show categories</div>
+            <div className="left-side-bar">
+                <nav className="side-nav">
+                    <ul>
+                        {categories.map(category => (
+                            <li key={category.id}>
+                                <a href={`/manager/menu/${category.categoryName}`}>
+                                    {category.categoryName}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+            </div>
+
+
         </>
     )
 }
