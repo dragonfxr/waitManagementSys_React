@@ -3,7 +3,7 @@ import { Menu, Layout } from 'antd';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 
 function CustomerPage() {
-    const [categories, setCategories] = useState([]);
+    const [categories, setCategories] = useState([]);// store all dishes
     const navigate = useNavigate();
     const location = useLocation();
     const { Header, Content, Footer, Sider } = Layout;
@@ -31,6 +31,7 @@ function CustomerPage() {
                         background: '#f0f0f0',
                     }}
                 >
+                    {/* Show All Categories */}
                     <Menu
                         style={{ width: 256, background: 'transparent' }}
                         defaultSelectedKeys={['0']}

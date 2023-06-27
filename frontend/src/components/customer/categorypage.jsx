@@ -5,9 +5,10 @@ import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 
 function CategoryPage() {
     const [dishData, setDishData] = useState([]);
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState({});
     let categoryInfo = useParams();
 
+    // fetch all dishes
     useEffect(() => {
         const fetchDishData = async () => {
             const response = await fetch(`http://localhost:8000/hungry/select/${categoryInfo.categoryId}`, {
@@ -18,6 +19,21 @@ function CategoryPage() {
         }
         fetchDishData();
     }, [categoryInfo.categoryId])
+
+
+    const MinusCount = (DishID) =>{
+        setCount((prevNumbers) => ({
+            ...prevNumbers,
+            [DishID]: (prevNumbers[DishID] || 0) - 1
+          }));
+    };
+
+    const PlusCount = (DishID) =>{
+        setCount((prevNumbers) => ({
+            ...prevNumbers,
+            [DishID]: (prevNumbers[DishID] || 0) + 1
+          }));
+    };
 
     return (
         <>
@@ -36,7 +52,7 @@ function CategoryPage() {
                                 <div style={{ marginRight: '40px', marginLeft: '40px' }}>
                                     <Card.Meta title={dish.DishName} />
                                     <div className="dish-info">
-                                        <p className="price">Price: {dish.Price}</p>
+                                        <p className="price">Price: {dish.Price} $</p>
                                         <p className="description">Description: {dish.Description}</p>
                                         <p className="ingredients">Ingredients: {dish.Ingredients}</p>
                                     </div>
@@ -46,14 +62,14 @@ function CategoryPage() {
                                         type="primary"
                                         shape="circle"
                                         icon={<MinusOutlined />}
-                                        onClick={() => setCount(Math.max(0, count - 1))}
+                                        onClick={() => MinusCount(dish.DishID)}
                                     />
-                                    <p style={{ margin: '0 16px' }}>{count}</p>
+                                    <p style={{ margin: '0 16px' }}>{count[dish.DishID] || 0}</p>
                                     <Button
                                         type="primary"
                                         shape="circle"
                                         icon={<PlusOutlined />}
-                                        onClick={() => setCount(count + 1)}
+                                        onClick={() => PlusCount(dish.DishID)}
                                     />
                                 </div>
                             </div>
