@@ -8,7 +8,7 @@ function CategoryPage() {
     const [count, setCount] = useState({});
     let categoryInfo = useParams();
 
-    // fetch all dishes
+    // fetch dishes with specific categories
     useEffect(() => {
         const fetchDishData = async () => {
             const response = await fetch(`http://localhost:8000/hungry/select/${categoryInfo.categoryId}`, {

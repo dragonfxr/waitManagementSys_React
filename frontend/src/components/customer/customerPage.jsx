@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 /* <link rel="stylesheet" href="customer.css" /> */
 
 function CustomerPage() {
-    const [categories, setCategories] = useState([]);// store all dishes
+    const [categories, setCategories] = useState([]);// store all categories
     const navigate = useNavigate();
     const location = useLocation();
     const { Header, Content, Footer, Sider } = Layout;
