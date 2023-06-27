@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { List, Button, Drawer, Space } from 'antd';
+import { List, Button, Drawer, Space, InputNumber} from 'antd';
 import { useState } from 'react';
 import ButtonImage from './order-now-button.png'
 import './homepage.css'
@@ -7,6 +7,7 @@ import './homepage.css'
 function HomePage() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [tableId, setTableId] = useState(1);
   const placement = 'left';
   const data = [
     {
@@ -28,6 +29,14 @@ function HomePage() {
   const onClose = () => {
     setOpen(false);
   };
+
+  const isInteger = (value) => {
+    // Parse the value as an integer
+    const intValue = parseInt(value);
+    console.log(!isNaN(intValue) && intValue.toString() === value);
+    return !isNaN(intValue) && intValue.toString() === value;
+  }
+  
 
   return (
     <>
@@ -60,7 +69,16 @@ function HomePage() {
           />
         </Drawer>
         <div className="divButton">
-          <button className="centeredButton" onClick={() => navigate('/customer')}>
+          <Space>
+            Enter Your Table Number: 
+            <InputNumber min={1} max={25} value={`${tableId}`} onChange={setTableId} />
+          </Space>
+          
+          <button className="centeredButton" onClick={() => {
+            if (isInteger(`${tableId}`) && tableId > 0 && tableId < 26){
+              navigate(`/customer/${tableId}`);
+            }
+            }}>
             <img src={ButtonImage} style={{ height: '100px' }} alt="button" />
           </button>
         </div>

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Menu, Layout, Button} from 'antd';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { BellOutlined, HomeOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { BellOutlined, HomeOutlined, DoubleLeftOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { useParams } from "react-router-dom";
 /* <link rel="stylesheet" href="customer.css" /> */
 
 function CustomerPage() {
@@ -9,6 +10,10 @@ function CustomerPage() {
     const navigate = useNavigate();
     const location = useLocation();
     const { Header, Content, Footer, Sider } = Layout;
+    const tableId = useParams();
+    // localStorage.setItem('tableId', useParams().toString());
+    // const tableId = localStorage.getItem('tableId');
+    // console.log(tableId.tableId);
 
     useEffect(() => {
         const fetchMenuData = async () => {
@@ -41,7 +46,7 @@ function CustomerPage() {
                         mode="inline"
                     >
                         {categories.map(category => (
-                            <Menu.Item key={category.CategoryID} onClick={() => navigate(`/customer/menu/${category.CategoryID}`)}>
+                            <Menu.Item key={category.CategoryID} onClick={() => navigate(`/customer/${tableId.tableId}/menu/${category.CategoryID}`)}>
                                 {category.CategoryName}
                             </Menu.Item>
                         ))}
@@ -49,7 +54,7 @@ function CustomerPage() {
                 </Sider>
                 <Layout style={{ marginLeft: 200 }}>
                     <Header style={{ background: '#fff', paddingLeft: 10 }}>
-                        Table Number:
+                        Table Number: {tableId.tableId}
                         <Button
                             type="primary" danger
                             shape="circle"
@@ -63,29 +68,40 @@ function CustomerPage() {
                             shape="circle"
                             size="large"
                             icon={<HomeOutlined />}
-                            onClick={() => navigate(`/customer`)}
+                            onClick={() => navigate(`/customer/${tableId.tableId}`)}
                             title="Go back to home page"
                         />
                         <Button
                             type="primary"
-                            shape="circle"
+                            icon={<DoubleLeftOutlined />}
                             size="large"
-                            icon={<CloseCircleOutlined />}
-                            onClick={() => navigate(`/`)}
-                            title="End ordering"
-                        />
+                            onClick={() => {navigate(`/`);
+                                            alert("By doing this, you will lose all your data!");
+                                            // localStorage.removeItem('tableId');
+                                        }}
+                            title="Select new table number"
+                        >
+                        Select new table number
+                        </Button>
                     </Header>
                     <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
                         <div style={{ padding: 24, background: '#fff', textAlign: 'center' }}>
                             <Outlet />
-                            {location.pathname === '/customer' &&
+                            {location.pathname === `/customer/${tableId.tableId}` &&
                                 <div style={{ textAlign: 'center' }}>
                                     <img src={'/ayouh.jpeg'} style={{ width: '750px' }} alt="welcome" />
                                 </div>
                             }
                         </div>
                     </Content>
-                    <Footer style={{ textAlign: 'center' }}>Are You Hungry 😋</Footer>
+                    <Footer style={{ textAlign: 'center'}}>
+                        <div style={{margin: 20}}>
+                        Are You Hungry 😋
+                        </div>
+                       <div>
+                       <ShoppingCartOutlined />
+                        </div> 
+                    </Footer>
                 </Layout>
             </Layout >
 

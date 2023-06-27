@@ -15,7 +15,7 @@ function App() {
       <Routes>
         <Route path='/' element={<HomePage />}/>
         <Route path='/manager' element={<ManagerPage />}/>
-        <Route path='/customer' element={<CustomerPage />}>
+        <Route path='/customer/:tableId' element={<CustomerPage />}>
           <Route path='menu/:categoryId' element={<CategoryPage />} />
         </Route>
         <Route path='/waiter' element={<WaiterPage />}/>
