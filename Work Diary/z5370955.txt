@@ -20,4 +20,4 @@ Week4:
 
 Week5:
 1. Summarize the shortages in the proposal based on the feedback.
-2. Complete api for the user stories in sprint1, including Dish, Category and TableNumber.
+2. Finish all api for the user stories in sprint1, including Dish, Category and TableNumber.
