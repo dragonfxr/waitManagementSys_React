@@ -32,6 +32,7 @@ Please do the following commands:
 `pip install django-filter` (installing this step would update django version to 4.0, we need to install django==3.1 again and ignore error)  
 
 (b)Update the model:  
+`cd backend`
 `python manage.py makemigrations`
 
 (c)Migrate settings:  
