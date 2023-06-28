@@ -19,7 +19,7 @@ Please do the following commands:
 
 ## 1. Backend Configuration
 (a)Install some required Python libraries:  
-`pip install django==3.1`  
+`pip install django==3.2`  
 
 `pip install djangorestframework==3.12.0`  
 
