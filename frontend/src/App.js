@@ -15,7 +15,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<HomePage />}/>
-        <Route path='/manager' element={<ManagerPage />} component={EditCategoryPage}>
+        <Route path='/manager' element={<ManagerPage />} >
           <Route path=':categoryId' element={<EditCategoryPage />} />
         </Route>
         <Route path='/customer/:tableId' element={<CustomerPage />}>

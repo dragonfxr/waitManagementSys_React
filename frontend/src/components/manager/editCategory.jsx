@@ -1,5 +1,5 @@
-import { List, Card, Modal, Form, Input, Button, message } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
+import { List, Card, Modal, Form, Input, Button, message, Select} from 'antd';
+import { EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
@@ -7,34 +7,76 @@ import { useParams } from "react-router-dom";
 function EditCategoryPage({ showAllDishes }) {
     const [dishes, setDishes] = useState([]);
     const [currentDish, setCurrentDish] = useState(null); //last id
-    // edit information
+    const [categories, setCategories] = useState([]);
+    // edit information:
     const [dishName, setDishName] = useState(null)
     const [dishDescription, setDishDescription] = useState(null)
     const [dishPrice, setDishPrice] = useState(null)
     const [dishIngredients, setDishIngredients] = useState(null)
-    // const [dishCategory, setDishCategory] = useState(null);
+    const [dishCategory, setDishCategory] = useState(null);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    // Add new dish information:
+    const [newCategory, setNewCategory] = useState('');
+    const [newName, setNewName] = useState(null)
+    const [newDescription, setNewDescription] = useState(null)
+    const [newPrice, setNewPrice] = useState(null)
+    const [newIngredients, setNewIngredients] = useState(null)
+
+    const [isEditOpen, setIsEditOpen] = useState(false);
+    const [isAddOpen, setIsAddOpen] = useState(false);
     let categoryInfo = useParams();
 
-    const showModal = (dish) => {
+    const showEditDishes = async (dish) => {
         setCurrentDish(dish);//last id
-        setIsModalOpen(true);
-
+        setIsEditOpen(true);
+        setDishName(dish.DishName); // Set the dish name as the default value
+        setDishPrice(dish.Price); // Set the dish price as the default value
+        setDishDescription(dish.Description); // Set the dish description as the default value
+        setDishIngredients(dish.Ingredients); // Set the dish ingredients as the default value
+        setDishCategory(dish.DishType); // Set the dish category as the default value
+        setIsEditOpen(true);
     };
 
-    const handleOk = () => {
-        setIsModalOpen(false);
+    const showAddDishes = async () =>{
+        setIsAddOpen(true);
+        console.log(isAddOpen);
+    }
+
+    const editOk = async () => {
+        setIsEditOpen(false);
     };
-    const handleCancel = () => {
-        setIsModalOpen(false);
+    const editCancel = async () => {
+        setIsEditOpen(false);
+        // setCurrentDish(null);
     };
-    const onFinish = (values) => {
-        console.log('Success:', values);
+
+    const addOk = async () => {
+        setIsAddOpen(false);
     };
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+    const addCancel = async () => {
+        setIsAddOpen(false);
     };
+
+
+
+    const deleteDish = async (dish) => {
+        await fetch(`http://localhost:8000/hungry/dishes/${dish.DishID}`, {
+          method: 'DELETE'
+        });
+        setCurrentDish(dish);
+        message.success("You have deleted this dish!")
+      }
+
+    useEffect(() => {
+        const fetchCategoryData = async () => {
+            const response = await fetch('http://localhost:8000/hungry/categories/', {
+              method: 'GET'
+            });
+            const data = await response.json();
+            setCategories(data);
+          }
+          fetchCategoryData();
+    }, [isAddOpen, isEditOpen])
 
     useEffect(() => {
         const fetchMenuData = async () => {
@@ -47,7 +89,7 @@ function EditCategoryPage({ showAllDishes }) {
             }
         }
         fetchMenuData();
-    }, [showAllDishes])
+    }, [showAllDishes, isAddOpen, isEditOpen, currentDish])
 
 
     // fetch dishes with specific categories
@@ -62,17 +104,17 @@ function EditCategoryPage({ showAllDishes }) {
         if (categoryInfo.categoryId) {
             fetchDishData();
         }
-    }, [categoryInfo.categoryId])
+    }, [categoryInfo.categoryId, isEditOpen, isAddOpen, currentDish])
 
 
 
-    const modifyDish = async (dishId, dishCate) => {
+    const modifyDish = async (dishId) => {
         console.log({
             DishName: dishName,
             Price: dishPrice,
             Description: dishDescription,
             Ingredients: dishIngredients,//price not necessary
-            DishType: dishCate
+            DishType: dishCategory
         })
         const response = await fetch(`http://localhost:8000/hungry/dishes/${dishId}`, {
             method: 'PUT',
@@ -84,11 +126,30 @@ function EditCategoryPage({ showAllDishes }) {
                 Price: Number(dishPrice),
                 Description: dishDescription,
                 Ingredients: dishIngredients,//price not necessary
+                DishType: dishCategory,
+            })
+        });
+        if (response.ok) {
+            message.success("Editing dish information successfully!")
+        }
+    }
+
+    const addDish = async (dishCate) => {
+        const response = await fetch(`http://localhost:8000/hungry/dishes/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                DishName: newName,
+                Price: Number(newPrice),
+                Description: newDescription,
+                Ingredients: newIngredients,//price not necessary
                 DishType: dishCate,
             })
         });
         if (response.ok) {
-            message.success("Modify dish information successfully!")
+            message.success("Adding dish information successfully!")
         }
     }
 
@@ -114,22 +175,30 @@ function EditCategoryPage({ showAllDishes }) {
                                             <p className="price">Price: {dish.Price} $</p>
                                             <p className="description">Description: {dish.Description}</p>
                                             <p className="ingredients">Ingredients: {dish.Ingredients}</p>
-                                            <p className="ingredients">Category: {dish.DishType}</p>
+                                            {/* <p className="ingredients">Category: {dish.DishType}</p> */}
                                         </div>
                                     </div>
                                     <Button type="primary" icon={<EditOutlined />} onClick={() => {
-                                        showModal(dish);
-                                    }}>
+                                        showEditDishes(dish);
+                                    }} style={{ marginRight: '8px' }}>
                                         Edit
                                     </Button>
-                                    <Modal title="Edit Dish Details" open={isModalOpen}
+                                    
+                                    <Button type="primary" danger  icon={<DeleteOutlined />} onClick={() => {
+                                        deleteDish(dish);
+                                    }} style={{ marginLeft: '8px' }}>
+                                        Delete
+                                    </Button>
+
+                                    {/* Edit Dishes Window */}
+
+                                    <Modal title="Edit Dish Details" open={isEditOpen}
                                         onOk={() => {
-                                            handleOk();
-                                            modifyDish(currentDish?.DishID, dish.DishType);
+                                            editOk();
+                                            modifyDish(currentDish?.DishID);
                                         }}
-                                        onCancel={handleCancel}>
+                                        onCancel={editCancel}>
                                         <Form
-                                            name="basic"
                                             labelCol={{
                                                 span: 8,
                                             }}
@@ -142,13 +211,12 @@ function EditCategoryPage({ showAllDishes }) {
                                             initialValues={{
                                                 remember: true,
                                             }}
-                                            onFinish={onFinish}
-                                            onFinishFailed={onFinishFailed}
                                             autoComplete="off"
                                         >
                                             <Form.Item
                                                 label="Dish ID"
-                                                name="Dish ID">
+                                                name="Dish ID"
+                                                >
                                                 {currentDish?.DishID}
                                             </Form.Item>
                                             <Form.Item
@@ -167,7 +235,6 @@ function EditCategoryPage({ showAllDishes }) {
                                             </Form.Item>
                                             <Form.Item
                                                 label="Dish Price"
-                                                name="Dish Price"
                                                 rules={[
                                                     {
                                                         required: true,
@@ -181,7 +248,6 @@ function EditCategoryPage({ showAllDishes }) {
                                             </Form.Item>
                                             <Form.Item
                                                 label="Dish Description"
-                                                name="Dish Description"
                                                 rules={[
                                                     {
                                                         required: true,
@@ -194,7 +260,6 @@ function EditCategoryPage({ showAllDishes }) {
 
                                             <Form.Item
                                                 label="Dish Ingredients"
-                                                name="Dish Ingredients"
                                                 rules={[
                                                     {
                                                         required: true,
@@ -205,21 +270,132 @@ function EditCategoryPage({ showAllDishes }) {
                                                 <Input placeholder={currentDish?.Ingredients} onChange={e => setDishIngredients(e.target.value)} />
                                             </Form.Item>
 
-                                            {/* <Form.Item
+                                            <Form.Item
                                                 label="Dish Category"
-                                                name="Dish Category"
                                                 rules={[
                                                     {
                                                         required: true,
-                                                        message: 'Please specify the dish category!',
+                                                        message: 'Please select from below.',
                                                     },
                                                 ]}
-                                                help="Please insert an integer for now! (TODO:)"
                                             >
+                                            <Select
+                                              value={dishCategory}
+                                              onChange={(value) => {
+                                                setDishCategory(value); // Update the state with the new selected value
+                                                // console.log("category: ", dishCategory);
+                                              }}
+                                              style={{ width: '100%', height: '32px', padding: '6px' }}
+                                            >
+                                              {/* <option value="">-- Select Category --</option> */}
+                                              {categories.map((category) => (
+                                                  <Select.Option key={category.CategoryID} value={category.CategoryID}>
+                                                  {category.CategoryName} (CategoryID:{category.CategoryID})
+                                                </Select.Option>
+                                              ))}
+                                            </Select>
+                                            </Form.Item>
 
-                                                <Input placeholder={currentDish?.DishType} />
-                                            </Form.Item> */}
+                                        </Form>
+                                    </Modal>
+                                    {/* Add Dishes Window */}
+                                    <Modal title="Add more dishes" open={isAddOpen}
+                                        onOk={() => {
+                                            addOk();
+                                            addDish(dish.DishType);
+                                        }}
+                                        onCancel={addCancel}>
+                                        <Form
+                                            name="basic"
+                                            labelCol={{
+                                                span: 8,
+                                            }}
+                                            wrapperCol={{
+                                                span: 16,
+                                            }}
+                                            style={{
+                                                maxWidth: 600,
+                                            }}
+                                            initialValues={{
+                                                remember: true,
+                                            }}
+                                            autoComplete="off"
+                                        >
+                                            <Form.Item
+                                                label="Dish Name"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: 'Please specify the dish name!',
+                                                    },
+                                                ]}
+                                                help="Please start with a capital letter!"
+                                            >
+                                                <Input placeholder={"Dish Name"}
+                                                    onChange={e => setNewName(e.target.value)} />
+                                            </Form.Item>
+                                            <Form.Item
+                                                label="Dish Price"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: 'Please specify the dish price!',
+                                                    },
+                                                ]}
+                                                help="Please enter the price!"
+                                            >
+                                                <Input placeholder={0.00}
+                                                    onChange={e => setNewPrice(e.target.value)} />
+                                            </Form.Item>
+                                            <Form.Item
+                                                label="Dish Description"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: 'Please specify the dish description!',
+                                                    },
+                                                ]}
+                                            >
+                                                <Input placeholder={"Description"} onChange={e => setNewDescription(e.target.value)} />
+                                            </Form.Item>
 
+                                            <Form.Item
+                                                label="Dish Ingredients"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: 'Please specify the dish ingredients!',
+                                                    },
+                                                ]}
+                                            >
+                                                <Input placeholder={"Ingredients"} onChange={e => setNewIngredients(e.target.value)} />
+                                            </Form.Item>
+
+                                            <Form.Item
+                                                label="Dish Category"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: 'Please select from below.',
+                                                    },
+                                                ]}
+                                            >
+                                            <Select
+                                              value={newCategory}
+                                              onChange={(value) => {
+                                                setNewCategory(value); // Update the state with the new selected value
+                                                // console.log("category: ", newCategory);
+                                              }}
+                                              style={{ width: '100%', height: '32px', padding: '6px' }}
+                                            >
+                                              {/* <option value="">-- Select Category --</option> */}
+                                              {categories.map((category) => (
+                                                  <Select.Option key={category.CategoryID} value={category.CategoryID}>
+                                                  {category.CategoryName} (CategoryID:{category.CategoryID})
+                                                </Select.Option>
+                                              ))}
+                                            </Select>
+                                            </Form.Item>
                                         </Form>
                                     </Modal>
                                 </div>
@@ -227,7 +403,10 @@ function EditCategoryPage({ showAllDishes }) {
                         </List.Item >) :
                         (
                             <List.Item>
-                                <Button style={{ backgroundColor: "green", width: "400px", height: "90px", fontSize: "6ex" }} type="primary">Add more dishes</Button>
+                                <Button style={{ backgroundColor: "green", width: "400px", height: "90px", fontSize: "6ex" }} 
+                                type="primary" onClick={() => {
+                                    showAddDishes(dish);
+                                }}>Add more dishes</Button>
                             </List.Item>
                         )
                 )

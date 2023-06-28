@@ -33,7 +33,7 @@ function HomePage() {
   const isInteger = (value) => {
     // Parse the value as an integer
     const intValue = parseInt(value);
-    console.log(!isNaN(intValue) && intValue.toString() === value);
+    // console.log(!isNaN(intValue) && intValue.toString() === value);
     return !isNaN(intValue) && intValue.toString() === value;
   }
 

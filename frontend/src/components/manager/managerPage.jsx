@@ -131,6 +131,8 @@ function ManagerPage() {
                     onClick={(e) => {
                       e.stopPropagation();
                       deleteCategory(category.CategoryID.toString());
+                      setShowAllDishes(true);
+                      navigate("/manager");
                     }}
                     style={{ marginLeft: "10px", right: '70px' }}
                   />
