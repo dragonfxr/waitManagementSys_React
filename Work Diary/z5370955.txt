@@ -19,4 +19,5 @@ Week4:
 2. Learn and use swagger to create and test api.
 
 Week5:
-1. 
+1. Summarize the shortages in the proposal based on the feedback.
+2. Complete api for the user stories in sprint1, including Dish, Category and TableNumber.
