@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Menu, Layout, Button, Modal, Input } from 'antd';
+import { Menu, Layout, Button, Modal, Input, message } from 'antd';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { HomeOutlined, EditOutlined } from '@ant-design/icons';
+import { HomeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import './manager.css';
 import EditCategoryPage from "./editCategory";
 
@@ -33,19 +33,17 @@ function ManagerPage() {
     setInputValue('');
   };
 
-
+  const fetchCategoryData = async () => {
+    const response = await fetch('http://localhost:8000/hungry/categories/', {
+      method: 'GET'
+    });
+    const data = await response.json();
+    setCategories(data);
+  }
   useEffect(() => {
-    const fetchCategoryData = async () => {
-      const response = await fetch('http://localhost:8000/hungry/categories/', {
-        method: 'GET'
-      });
-      const data = await response.json();
-      setCategories(data);
-    }
     fetchCategoryData();
   }, [])
 
-  console.log(typeof (inputValue));
   const postCategory = async () => {
     const geCateId = Math.floor(Math.random() * 9000) + 1000;
     const response = await fetch('http://localhost:8000/hungry/categories/', {
@@ -58,8 +56,29 @@ function ManagerPage() {
         CategoryName: `${inputValue}`,
       })
     })
-    const data = await response.json();
-    console.log(data);
+
+    const data = await response.json()
+    if (response.ok) {
+      message.success('Create category successfully!😃')
+      fetchCategoryData();
+    } else {
+      message.error(`${data.CategoryName}😥`)
+    }
+
+  }
+
+  const deleteCategory = async (cId) => {
+    const response = await fetch(`http://localhost:8000/hungry/categories/${cId}`, {
+      method: 'DELETE',
+    })
+    console.log(response)//backend no response
+    if (response.ok) {
+      message.success('Delete category successfully!😃');
+      fetchCategoryData();
+    }
+    // else {
+    //   message.error(`${data.CategoryName}😥`)
+    // }
   }
 
   return (
@@ -96,12 +115,26 @@ function ManagerPage() {
             mode="inline"
           >
             {categories.map(category => (
-              <Menu.Item key={category.CategoryID} onClick={() => {
-                setShowAllDishes(false)
-                navigate(`/manager/${category.CategoryID}`);
-                setSelectedKeys(category.CategoryID.toString())
-              }}>
-                {category.CategoryName}
+              <Menu.Item key={category.CategoryID}>
+                <div
+                  style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}
+                  onClick={() => {
+                    setShowAllDishes(false);
+                    navigate(`/manager/${category.CategoryID}`);
+                    setSelectedKeys(category.CategoryID);
+                  }}
+                >
+                  <span>{category.CategoryName}</span>
+                  <Button
+                    type="danger"
+                    icon={<DeleteOutlined />}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteCategory(category.CategoryID.toString());
+                    }}
+                    style={{ marginLeft: "10px", right: '70px' }}
+                  />
+                </div>
               </Menu.Item>
             ))}
           </Menu>
