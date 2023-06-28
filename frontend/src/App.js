@@ -6,6 +6,7 @@ import CustomerPage from './components/customer/customerPage';
 import WaiterPage from './components/waiter/waiterPage';
 import KitchenPage from './components/kitchen/kitchenPage';
 import CategoryPage from './components/customer/categorypage';
+import EditCategoryPage from './components/manager/editCategory';
 
 function App() {
   return (
@@ -14,7 +15,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<HomePage />}/>
-        <Route path='/manager' element={<ManagerPage />}/>
+        <Route path='/manager' element={<ManagerPage />} component={EditCategoryPage}>
+          <Route path=':categoryId' element={<EditCategoryPage />} />
+        </Route>
         <Route path='/customer/:tableId' element={<CustomerPage />}>
           <Route path='menu/:categoryId' element={<CategoryPage />} />
         </Route>

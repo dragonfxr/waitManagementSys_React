@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { List, Button, Drawer, Space, InputNumber} from 'antd';
+import { List, Button, Drawer, Space, InputNumber } from 'antd';
 import { useState } from 'react';
 import ButtonImage from './order-now-button.png'
 import './homepage.css'
@@ -36,7 +36,7 @@ function HomePage() {
     console.log(!isNaN(intValue) && intValue.toString() === value);
     return !isNaN(intValue) && intValue.toString() === value;
   }
-  
+
 
   return (
     <>
@@ -48,7 +48,7 @@ function HomePage() {
         </Space>
         <Drawer
           style={{ backgroundColor: 'rgb(106, 79, 50)' }}
-          title="Basic Drawer"
+          title="Admin System"
           placement={placement}
           closable={false}
           onClose={onClose}
@@ -70,15 +70,15 @@ function HomePage() {
         </Drawer>
         <div className="divButton">
           <Space>
-            Enter Your Table Number: 
+            Enter Your Table Number:
             <InputNumber min={1} max={25} value={`${tableId}`} onChange={setTableId} />
           </Space>
-          
+
           <button className="centeredButton" onClick={() => {
-            if (isInteger(`${tableId}`) && tableId > 0 && tableId < 26){
+            if (isInteger(`${tableId}`) && tableId > 0 && tableId < 26) {
               navigate(`/customer/${tableId}`);
             }
-            }}>
+          }}>
             <img src={ButtonImage} style={{ height: '100px' }} alt="button" />
           </button>
         </div>
