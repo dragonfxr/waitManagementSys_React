@@ -33,6 +33,7 @@ Please do the following commands:
 
 (b)Update the model:  
 `cd backend`
+
 `python manage.py makemigrations`
 
 (c)Migrate settings:  
