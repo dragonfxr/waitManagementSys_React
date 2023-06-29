@@ -1,4 +1,4 @@
-import { List, Card, Modal, Form, Input, Button, message, Select} from 'antd';
+import { List, Card, Modal, Form, Input, Button, message, Select, TextArea } from 'antd';
 import { EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -191,13 +191,14 @@ function EditCategoryPage({ showAllDishes }) {
                                     </Button>
 
                                     {/* Edit Dishes Window */}
-
-                                    <Modal title="Edit Dish Details" open={isEditOpen}
+                                    <Modal title="Edit Dish Details" 
+                                    open={isEditOpen}
                                         onOk={() => {
                                             editOk();
                                             modifyDish(currentDish?.DishID);
                                         }}
                                         onCancel={editCancel}>
+                                        Leave it blank if you don't want to change.
                                         <Form
                                             labelCol={{
                                                 span: 8,
@@ -215,20 +216,17 @@ function EditCategoryPage({ showAllDishes }) {
                                         >
                                             <Form.Item
                                                 label="Dish ID"
-                                                name="Dish ID"
                                                 >
                                                 {currentDish?.DishID}
                                             </Form.Item>
                                             <Form.Item
                                                 label="Dish Name"
-                                                name="Dish Name"
                                                 rules={[
                                                     {
                                                         required: true,
                                                         message: 'Please specify the dish name!',
                                                     },
                                                 ]}
-                                                help="Please start with a capital letter!"
                                             >
                                                 <Input placeholder={currentDish?.DishName}
                                                     onChange={e => setDishName(e.target.value)} />
@@ -251,11 +249,10 @@ function EditCategoryPage({ showAllDishes }) {
                                                 rules={[
                                                     {
                                                         required: true,
-                                                        message: 'Please specify the dish description!',
                                                     },
                                                 ]}
                                             >
-                                                <Input placeholder={currentDish?.Description} onChange={e => setDishDescription(e.target.value)} />
+                                                <Input rows={4} placeholder={currentDish?.Description} onChange={e => setDishDescription(e.target.value)} />
                                             </Form.Item>
 
                                             <Form.Item
@@ -391,7 +388,7 @@ function EditCategoryPage({ showAllDishes }) {
                                               {/* <option value="">-- Select Category --</option> */}
                                               {categories.map((category) => (
                                                   <Select.Option key={category.CategoryID} value={category.CategoryID}>
-                                                  {category.CategoryName} (CategoryID:{category.CategoryID})
+                                                  {category.CategoryName}
                                                 </Select.Option>
                                               ))}
                                             </Select>
