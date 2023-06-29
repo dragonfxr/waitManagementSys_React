@@ -11,3 +11,12 @@ Week2:
 Week3:
 1. determine the division of labor for the proposal and finish writing the related documents
 2. the group decided the format of front-end and back-end interaction
+
+Week 4 : 
+1. learn and use swagger to create and test api list. 
+2. Resolve some bugs  
+
+Week 5 : 
+1. Make some reflection and adjustments based on the feedback of the proposal. 
+2. Create some database tables related to demo1 like Category / Dish / Order / Orderdetail. 
+3. Complete api of Spring 1 that Dish , Category and Select TableNumber.
