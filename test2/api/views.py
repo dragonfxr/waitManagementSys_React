@@ -177,10 +177,6 @@ class OrderDetailList(APIView):
     )
     def get(self, request, format=None):
         orderdetails = OrderDetail.objects.all()
-        for item in orderdetails:
-            dish = Dish.objects.get(DishID = item.DishForeignID)
-            item.DishPrices = dish.Price * item.DishAmount
-            item.save()
         serializer = OrderDetailSerializer(orderdetails, many=True)
         return Response(serializer.data)
 
@@ -212,9 +208,6 @@ class OrderDetailDetail(APIView):
     )
     def get(self, request, pk, format=None):       
         orderdetail = self.get_object(pk)
-        dish = Dish.objects.get(DishID = orderdetail.DishForeignID)
-        orderdetail.DishPrices = dish.Price * orderdetail.DishAmount
-        orderdetail.save()
         serializer = OrderDetailSerializer(orderdetail)
         return Response(serializer.data)
 
@@ -226,9 +219,6 @@ class OrderDetailDetail(APIView):
     )
     def put(self, request, pk, format=None):
         orderdetail = self.get_object(pk)
-        dish = Dish.objects.get(DishID = orderdetail.DishForeignID)
-        orderdetail.DishPrices = dish.Price * orderdetail.DishAmount
-        orderdetail.save()
         serializer = OrderDetailSerializer(instance=orderdetail, data=request.data)
         if serializer.is_valid():
             serializer.save()
