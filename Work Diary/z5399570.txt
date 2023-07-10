@@ -18,4 +18,11 @@ Week 3:
 
 Week 4:
 1. Use swagger to create an api list
-2. 
+2. Debug some common issues
+
+
+Week 5:
+1. Complete the create of data table: Category/Dish/Order/Orderdetail
+2. Complete API for Category/Dish/Select
+
+

@@ -12,3 +12,13 @@ Get used to Jira and GitHub. However, we faced some issue on pushing to GitHub, 
 Week 3:
 Finshing up the proposal.
 Decides some data structure of some instances.
+
+Week 4:
+We have discussed the design of apis and the format of data. The proposal had beed submitted.
+Start looking at the UI design, and have decided to use some external libraries to finish up the UI design.
+Finished drafting the homepage of our web, and some routing of the pages have been set.
+
+Week 5:
+The backend group has finished the apis that we need for Demo 1, and we have tested them together.
+Recieved the feedback of the proposal so we have already discussed it.
+Try to finish the front end program by Thursday this week.
