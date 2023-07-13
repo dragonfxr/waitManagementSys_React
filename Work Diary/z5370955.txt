@@ -21,3 +21,10 @@ Week4:
 Week5:
 1. Summarize the shortages in the proposal based on the feedback.
 2. Finish all api for the user stories in sprint1, including Dish, Category and TableNumber.
+
+Week6:
+1. Have a break on the flexible week.
+
+Week7:
+1. Complete API for OrderDetails, especially DishAmount and DishPrices.
+2. Debug the issues for automatic computation of DishPrices.
