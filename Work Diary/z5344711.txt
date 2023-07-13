@@ -20,3 +20,10 @@ Week 5 :
 1. Make some reflection and adjustments based on the feedback of the proposal. 
 2. Create some database tables related to demo1 like Category / Dish / Order / Orderdetail. 
 3. Complete api of Spring 1 that Dish , Category and Select TableNumber.
+
+Week6:
+1. Have a break on flexible week.
+
+Week7:
+1. Write API for OrderDetails.
+2. Try to solve the issues for DishPrices' automatic generation.
