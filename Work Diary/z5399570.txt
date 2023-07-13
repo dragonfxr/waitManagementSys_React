@@ -25,4 +25,11 @@ Week 5:
 1. Complete the create of data table: Category/Dish/Order/Orderdetail
 2. Complete API for Category/Dish/Select
 
+Week6:
+1. Flexible week, have a break.
+
+Week7:
+1. Complete API for OrderDetails.
+2. Debug the issues for DishPrices.
+
 
