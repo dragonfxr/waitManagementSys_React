@@ -1,3 +1,5 @@
+import random
+
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -19,31 +21,44 @@ class Dish(models.Model):
     Ingredients = models.CharField(max_length=50)
     DishType = models.ForeignKey(
         'Category', to_field="CategoryID", on_delete=models.PROTECT)
+
+    CostTime = models.IntegerField(default=0)
     
     def __str__(self):
         return self.DishName
 
-class OrderDish(models.Model):
-    OrderDishID = models.AutoField(primary_key=True)
-    OrderForeignID = models.ForeignKey('Order',to_field="OrderID",on_delete=models.CASCADE)
-    DishForeignID = models.ForeignKey('Dish',to_field="DishID",on_delete=models.DO_NOTHING)
+class OrderDetail(models.Model):
+    OrderDetailID = models.IntegerField(primary_key=True)
+    OrderID = models.ForeignKey('OrderTable',to_field="OrderID",on_delete=models.CASCADE)
+    DishID = models.ForeignKey('Dish',to_field="DishID",on_delete=models.PROTECT)
     DishAmount = models.IntegerField(default=1)
-    DishPrice = models.FloatField(default=0)
+    DishPrices = models.FloatField(default=0)
+    CompleteStatus = models.IntegerField(default=0, choices=((0, 'Not taking the order'), (1, 'Being prepared'), 
+                                        (2, 'Waiting for serving'), (3, 'Serving completed')))
 
     def __str__(self):
-        return "Order Dish Id:" + str(self.OrderDishID)
+        return "Order Dish Id:" + str(self.OrderDetailID)
 
 
-class Order(models.Model):
+class OrderTable(models.Model):
     OrderID = models.AutoField(primary_key=True)
-    TableID = models.IntegerField(default=0)
-    CompleteStatus = models.BooleanField(default=False)
+    TableID = models.ForeignKey('Table', to_field="TableID", on_delete=models.CASCADE)
+    TotalAmount = models.IntegerField(default=0)
+    TotalPrice = models.FloatField(default=0)
+    CreateTime = models.DateTimeField(auto_now_add=True)
+    PayTime = models.DateField(null=True)
+    PayStatus = models.BooleanField(default=False)
     DishAmount = models.IntegerField(default=0)
-    TablePrice = models.FloatField(default=0)
 
     def __str__(self):
-        return 'Order' + str(self.OrderID)
+        return 'Order: ' + str(self.OrderID)
 
+
+class Table(models.Model):
+    TableID = models.IntegerField(primary_key=True)
+
+    def __str__(self):
+        return 'Table: ' + str(self.TableID) 
     
 
 

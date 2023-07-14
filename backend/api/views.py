@@ -2,11 +2,14 @@ from django.http import Http404
 from django.shortcuts import render
 from drf_yasg2.utils import swagger_auto_schema
 from rest_framework import generics, status, viewsets
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Category, Dish
-from .serializers import CategorySerializer, DishSerializer
+from .models import Category, Dish, OrderDetail, OrderTable, Table
+from .serializers import (CategorySerializer, DishSerializer,
+                          OrderDetailSerializer, OrderTableSerializer,
+                          TableSerializer)
 
 # ------ Category API ------
 
@@ -161,3 +164,175 @@ class FilterDish(APIView):
         dishes = Dish.objects.filter(DishType = category.CategoryID)
         serializer = DishSerializer(dishes, many=True)
         return Response(serializer.data)
+
+
+
+# ------ OrderDetail API ------
+
+class OrderDetailList(APIView):
+
+    #List all order items, or create a new order item
+
+    @swagger_auto_schema(
+    operation_summary = 'Get all the order items list',
+    )
+    def get(self, request, format=None):
+        orderdetails = OrderDetail.objects.all()
+        serializer = OrderDetailSerializer(orderdetails, many=True)
+        return Response(serializer.data)
+
+
+    @swagger_auto_schema(
+    operation_summary = 'Add a list of order item to the order item list',
+    operation_description = 'You need to post data in the right format',
+    request_body = OrderDetailSerializer,
+    responses = {201: OrderDetailSerializer()}
+    )
+    def post(self, request, format=None):
+        serializer = OrderDetailSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+class OrderDetailDetail(APIView):
+
+   # Retrieve, update or delete a order detail
+
+    def get_object(self, pk):
+        try:
+            return OrderDetail.objects.get(pk=pk)
+        except OrderDetail.DoesNotExist:
+            raise Http404
+    @swagger_auto_schema(
+    operation_summary = 'Input a OrderItemID, then you will get a order detail',
+    )
+    def get(self, request, pk, format=None):       
+        orderdetail = self.get_object(pk)
+        serializer = OrderDetailSerializer(orderdetail)
+        return Response(serializer.data)
+
+    @swagger_auto_schema(
+    operation_summary = 'Input a order item then update it',
+    operation_description = 'Remember the right format',
+    request_body = OrderDetailSerializer,
+    responses = {201: OrderDetailSerializer()}
+    )
+    def put(self, request, pk, format=None):
+        orderdetail = self.get_object(pk)
+        serializer = OrderDetailSerializer(instance=orderdetail, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    @swagger_auto_schema(
+    operation_summary = 'Input a OrderItemID, then delete it',
+    )
+    def delete(self, request, pk, format=None):
+        orderdetail = self.get_object(pk)
+        orderdetail.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# ------ Order API ------
+
+class OrderTableList(APIView):
+
+    #List all order items, or create a new order table
+
+    @swagger_auto_schema(
+    operation_summary = 'Get all the order tables list',
+    )
+    def get(self, request, format=None):
+        ordertables = OrderTable.objects.all()
+        serializer = OrderTableSerializer(ordertables, many=True)
+        return Response(serializer.data)
+
+    @swagger_auto_schema(
+    operation_summary = 'Add a order item to the order item list',
+    operation_description = 'You need to post data in the right format',
+    request_body = OrderTableSerializer,
+    responses = {201: OrderTableSerializer()}
+    )
+    def post(self, request, format=None):
+        serializer = OrderTableSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class OrderTableDetail(APIView):
+
+   # Retrieve, update or delete a order table
+
+    def get_object(self, pk):
+        try:
+            return OrderTable.objects.get(pk=pk)
+        except OrderTable.DoesNotExist:
+            raise Http404
+    @swagger_auto_schema(
+    operation_summary = 'Input an OrderID, then you will get a order table',
+    )
+    def get(self, request, pk, format=None):       
+        ordertable = self.get_object(pk)
+        serializer = OrderTableSerializer(ordertable)
+        return Response(serializer.data)
+
+    @swagger_auto_schema(
+    operation_summary = 'Input a order table then update it',
+    operation_description = 'Remember the right format',
+    request_body = OrderTableSerializer,
+    responses = {201: OrderTableSerializer()}
+    )
+    def put(self, request, pk, format=None):
+        ordertable = self.get_object(pk)
+        serializer = OrderTableSerializer(instance=ordertable, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    @swagger_auto_schema(
+    operation_summary = 'Input a OrderID, then delete it',
+    )
+    def delete(self, request, pk, format=None):
+        ordertable = self.get_object(pk)
+        ordertable.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+## Filter Order
+class FilterOrder(APIView):
+
+    def get_object_order(self, pk):
+        try:
+            return OrderTable.objects.get(pk=pk)
+        except OrderTable.DoesNotExist:
+            raise Http404    
+    @swagger_auto_schema(
+    operation_summary = 'Select all the order items with same order ID',
+    operation_description = 'Input an orderID, then get all the order items in this order'
+    )
+    def get(self, request, pk, format=None):
+        ordertable = self.get_object_order(pk)
+        orderdetails = OrderDetail.objects.filter(OrderID = ordertable.OrderID)
+        serializer = OrderDetailSerializer(orderdetails, many=True)
+        return Response(serializer.data)
+
+
+
+class UpdateOrder(APIView):
+    @swagger_auto_schema(
+    operation_summary = 'Add a list of order item to the order item list',
+    operation_description = 'You need to post data in the right format',
+    request_body = OrderDetailSerializer,
+    responses = {201: OrderDetailSerializer()}
+    )
+    def post(self, request, format=None):
+        serializer = OrderDetailSerializer(data=request.data, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

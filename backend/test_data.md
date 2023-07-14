@@ -3,17 +3,14 @@
 This is  a description of test data
 
 (a)
-Category: [categoryId, categoryName]  
+Category: [categoryId, categoryName]
 
-
-1.[1, Salads]  
-2.[2, Entrees]  
-3.[3, Mains]  
-4.[4, Desserts]  
-5.[5, Drinks]   
-
-Json style data:  
-
+1.[1, Salads]
+2.[2, Entrees]
+3.[3, Mains]
+4.[4, Desserts]
+5.[5, Drinks]
+Json style data:
 [
   {
     "CategoryID": 1,
@@ -38,10 +35,8 @@ Json style data:
 ]
 
 (b)
-Dish: [DishID, DishName, Price, Description, Ingredients, DishType]  
-
-Json style data:  
-
+Dish: [DishID, DishName, Price, Description, Ingredients, DishType]
+Json style data:
 [
   {
     "DishID": 8,
