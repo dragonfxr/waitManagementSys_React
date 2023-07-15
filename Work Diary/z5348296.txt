@@ -15,6 +15,10 @@ week 4:
 Homepage frontend completed.
 Further discussion about API development.
 
-week 4:
+week 5:
 Sprint 1 completed.
 Plan for sprint 2 page layout and interfaces.
+
+week 7:
+Bugs are all fixed.
+Plan about interfaces and frontend layout design for next sprint.

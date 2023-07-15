@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { List, Card, Button } from "antd";
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
+import CartEdit from "./cartEdit";
 
 function CategoryPage() {
     const [dishData, setDishData] = useState([]);
@@ -21,18 +22,18 @@ function CategoryPage() {
     }, [categoryInfo.categoryId])
 
 
-    const MinusCount = (DishID) =>{
+    const MinusCount = (DishID) => {
         setCount((prevNumbers) => ({
             ...prevNumbers,
-            [DishID]: prevNumbers[DishID] > 0 ? prevNumbers[DishID]  - 1 : 0
-          }));
+            [DishID]: prevNumbers[DishID] > 0 ? prevNumbers[DishID] - 1 : 0
+        }));
     };
 
-    const PlusCount = (DishID) =>{
+    const PlusCount = (DishID) => {
         setCount((prevNumbers) => ({
             ...prevNumbers,
             [DishID]: (prevNumbers[DishID] || 0) + 1
-          }));
+        }));
     };
 
     return (
@@ -43,7 +44,10 @@ function CategoryPage() {
                 renderItem={dish => (
                     <List.Item>
                         <Card>
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <div style={{
+                                display: 'flex', alignItems: 'center',
+                                justifyContent: 'center'
+                            }}>
                                 <img
                                     alt={dish.DishName}
                                     src={'/ayouh.jpeg'}
@@ -79,6 +83,7 @@ function CategoryPage() {
                 }
             />
 
+            <CartEdit />
 
         </>
     )
