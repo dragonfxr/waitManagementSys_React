@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Menu, Layout, Button} from 'antd';
+import { Menu, Layout, Button, Modal } from 'antd';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { BellOutlined, HomeOutlined, DoubleLeftOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { BellOutlined, HomeOutlined, DoubleLeftOutlined } from '@ant-design/icons';
 import { useParams } from "react-router-dom";
 /* <link rel="stylesheet" href="customer.css" /> */
 
@@ -52,15 +52,20 @@ function CustomerPage() {
                         ))}
                     </Menu>
                 </Sider>
-                <Layout style={{ marginLeft: 200 }}>
-                    <Header style={{ background: '#fff', paddingLeft: 10 }}>
-                        Table Number: {tableId.tableId}
+                <Layout style={{
+                    marginLeft: 200
+                }}>
+                    <Header style={{
+                        background: '#fff', paddingLeft: 10
+                    }}>
+                        <span style={{ marginRight: '20px' }}> Table Number: {tableId.tableId}</span>
                         <Button
                             type="primary" danger
                             shape="circle"
                             size="large"
                             icon={<BellOutlined />}
                             onClick={() => alert("Ring the bell!")}
+                            style={{ marginRight: '20px' }}
                             title="Call for assistance"
                         />
                         <Button
@@ -68,20 +73,31 @@ function CustomerPage() {
                             shape="circle"
                             size="large"
                             icon={<HomeOutlined />}
-                            onClick={() => navigate(`/customer/${tableId.tableId}`)}
+                            style={{ marginRight: '20px' }}
+                            onClick={() => {
+                                navigate(`/customer/${tableId.tableId}`);
+                            }}
                             title="Go back to home page"
                         />
                         <Button
                             type="primary"
                             icon={<DoubleLeftOutlined />}
                             size="large"
-                            onClick={() => {navigate(`/`);
-                                            alert("By doing this, you will lose all your data!");
-                                            // localStorage.removeItem('tableId');
-                                        }}
+                            onClick={() => {
+                                Modal.confirm({
+                                    title: 'Are you sure?',
+                                    content: 'By doing this, you will lose all your dishes selected!',
+                                    onOk() {
+                                        navigate(`/`);
+                                    },
+                                    onCancel() {
+                                        // Handle cancel action if needed
+                                    },
+                                });
+                            }}
                             title="Select new table number"
                         >
-                        Select new table number
+                            Select new table number
                         </Button>
                     </Header>
                     <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
@@ -94,13 +110,10 @@ function CustomerPage() {
                             }
                         </div>
                     </Content>
-                    <Footer style={{ textAlign: 'center'}}>
-                        <div style={{margin: 20}}>
-                        Are You Hungry 😋
+                    <Footer style={{ textAlign: 'center' }}>
+                        <div style={{ margin: 20 }}>
+                            Are You Hungry 😋
                         </div>
-                       <div>
-                       <ShoppingCartOutlined />
-                        </div> 
                     </Footer>
                 </Layout>
             </Layout >
