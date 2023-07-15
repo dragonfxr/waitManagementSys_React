@@ -1,5 +1,3 @@
-import random
-
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -22,7 +20,6 @@ class Dish(models.Model):
     DishType = models.ForeignKey(
         'Category', to_field="CategoryID", on_delete=models.PROTECT)
 
-    CostTime = models.IntegerField(default=0)
     
     def __str__(self):
         return self.DishName
@@ -32,9 +29,9 @@ class OrderDetail(models.Model):
     OrderID = models.ForeignKey('OrderTable',to_field="OrderID",on_delete=models.CASCADE)
     DishID = models.ForeignKey('Dish',to_field="DishID",on_delete=models.PROTECT)
     DishAmount = models.IntegerField(default=1)
-    DishPrices = models.FloatField(default=0)
     CompleteStatus = models.IntegerField(default=0, choices=((0, 'Not taking the order'), (1, 'Being prepared'), 
                                         (2, 'Waiting for serving'), (3, 'Serving completed')))
+    
 
     def __str__(self):
         return "Order Dish Id:" + str(self.OrderDetailID)
@@ -48,7 +45,7 @@ class OrderTable(models.Model):
     CreateTime = models.DateTimeField(auto_now_add=True)
     PayTime = models.DateField(null=True)
     PayStatus = models.BooleanField(default=False)
-    DishAmount = models.IntegerField(default=0)
+    DishList = models.JSONField(default= list)
 
     def __str__(self):
         return 'Order: ' + str(self.OrderID)
@@ -56,6 +53,7 @@ class OrderTable(models.Model):
 
 class Table(models.Model):
     TableID = models.IntegerField(primary_key=True)
+    CallingWaiter = models.BooleanField(default=False)
 
     def __str__(self):
         return 'Table: ' + str(self.TableID) 

@@ -175,6 +175,7 @@ class OrderDetailList(APIView):
 
     @swagger_auto_schema(
     operation_summary = 'Get all the order items list',
+    operation_description = 'choices=[0: Not taking the order], [1:Being prepared], [2: Waiting for serving], [3:Serving completed]'
     )
     def get(self, request, format=None):
         orderdetails = OrderDetail.objects.all()
@@ -184,7 +185,7 @@ class OrderDetailList(APIView):
 
     @swagger_auto_schema(
     operation_summary = 'Add a list of order item to the order item list',
-    operation_description = 'You need to post data in the right format',
+    operation_description = 'choices=[0: Not taking the order], [1:Being prepared], [2: Waiting for serving], [3:Serving completed]',
     request_body = OrderDetailSerializer,
     responses = {201: OrderDetailSerializer()}
     )
@@ -209,6 +210,7 @@ class OrderDetailDetail(APIView):
             raise Http404
     @swagger_auto_schema(
     operation_summary = 'Input a OrderItemID, then you will get a order detail',
+    operation_description = 'choices=[0: Not taking the order], [1:Being prepared], [2: Waiting for serving], [3:Serving completed]'
     )
     def get(self, request, pk, format=None):       
         orderdetail = self.get_object(pk)
@@ -217,7 +219,7 @@ class OrderDetailDetail(APIView):
 
     @swagger_auto_schema(
     operation_summary = 'Input a order item then update it',
-    operation_description = 'Remember the right format',
+    operation_description = 'choices=[0: Not taking the order], [1:Being prepared], [2: Waiting for serving], [3:Serving completed]',
     request_body = OrderDetailSerializer,
     responses = {201: OrderDetailSerializer()}
     )
@@ -332,6 +334,69 @@ class UpdateOrder(APIView):
     )
     def post(self, request, format=None):
         serializer = OrderDetailSerializer(data=request.data, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TableDetail(APIView):
+
+
+    def get_object(self, pk):
+        try:
+            return Table.objects.get(pk=pk)
+        except Table.DoesNotExist:
+            raise Http404
+    @swagger_auto_schema(
+    operation_summary = 'Input a talbeID, then you will get a table status',
+    )
+    def get(self, request, pk, format=None):
+        table = self.get_object(pk)
+        serializer = TableSerializer(table)
+        return Response(serializer.data)
+
+    @swagger_auto_schema(
+    operation_summary = 'Input a table ID then update it',
+    operation_description = 'Remember the right format',
+    request_body = TableSerializer,
+    responses = {201: TableSerializer()}
+    )
+    def put(self, request, pk, format=None):
+        table = self.get_object(pk)
+        serializer = TableSerializer(instance=table, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    @swagger_auto_schema(
+    operation_summary = 'Input a tableID, then delete it',
+    )
+    def delete(self, request, pk, format=None):
+        table = self.get_object(pk)
+        table.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class TableList(APIView):
+
+    #List all tables, or create a new table
+
+    @swagger_auto_schema(
+    operation_summary = 'Get all the table list',
+    )
+    def get(self, request, format=None):
+        tables = Table.objects.all()
+        serializer = TableSerializer(tables, many=True)
+        return Response(serializer.data)
+
+    @swagger_auto_schema(
+    operation_summary = 'Add a table to the table list',
+    operation_description = 'You need to post data in the right format',
+    request_body = TableSerializer,
+    responses = {201: TableSerializer()}
+    )
+    def post(self, request, format=None):
+        serializer = TableSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -18,12 +18,13 @@ class DishSerializer(serializers.ModelSerializer):
 
  
 class OrderDetailSerializer(serializers.ModelSerializer):
-
+    
     class Meta:
         model = OrderDetail
         fields = '__all__'
 
 class OrderTableSerializer(serializers.ModelSerializer):
+    DishList = serializers.JSONField()
     class Meta:
         model = OrderTable
         fields = '__all__'
