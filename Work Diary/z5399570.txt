@@ -29,7 +29,10 @@ Week6:
 1. Flexible week, have a break.
 
 Week7:
-1. Complete API for OrderDetails.
+1. Complete API for OrderDetails, OrderTable, Table
 2. Debug the issues for DishPrices.
+
+Week8:
+
 
 
