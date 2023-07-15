@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Menu, Layout, Button, Modal, Input, message } from 'antd';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { HomeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { HomeOutlined, EditOutlined, DeleteOutlined, ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import './manager.css';
 import EditCategoryPage from "./editCategory";
 
@@ -40,6 +40,7 @@ function ManagerPage() {
     const data = await response.json();
     setCategories(data);
   }
+
   useEffect(() => {
     fetchCategoryData();
   }, [])
@@ -56,8 +57,10 @@ function ManagerPage() {
         CategoryName: `${inputValue}`,
       })
     })
+    console.log(`${categories}`);
 
     const data = await response.json()
+    console.log(data)
     if (response.ok) {
       message.success('Create category successfully!😃')
       fetchCategoryData();
@@ -76,10 +79,73 @@ function ManagerPage() {
       message.success('Delete category successfully!😃');
       fetchCategoryData();
     }
-    // else {
-    //   message.error(`${data.CategoryName}😥`)
-    // }
   }
+
+  const moveUp = (index) => {
+    if (index === 0) {
+      return;
+    }
+
+    const items = [...categories];
+    const item = items[index];   // shallow copy
+
+    items[index] = items[index - 1]
+    items[index - 1] = item;
+
+    setCategories(items);
+
+  }
+
+  const moveDown = async (index) => {
+    if (index === categories.length - 1) {
+      return;
+    }
+
+    const items = [...categories];
+    const item = items[index];   // shallow copy
+
+    items[index] = items[index + 1]
+    items[index + 1] = item;
+
+    // const deleteAllCategories = async () => {
+    //   for (const item of items) {
+    //     console.log(item);
+    //     const response = await fetch(`http://localhost:8000/hungry/categories/${item.CategoryID}`, {
+    //       method: 'DELETE',
+    //     });
+
+    //     if (!response.ok) {
+    //       console.error(`Failed to delete category ${item.CategoryID}`);
+    //     }
+    //   }
+    // };
+
+    // const postCategories = async () => {
+    //   for (const item of items) {
+    //     const response = await fetch('http://localhost:8000/hungry/categories/', {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify({
+    //         CategoryID: item.CategoryID,
+    //         CategoryName: item.CategoryName
+    //       })
+    //     });
+    //     console.log(response.json())
+    //     if (!response.ok) {
+    //       console.error(`Failed to post category ${item.CategoryID}`);
+    //     }
+    //   }
+    // };
+
+    // await deleteAllCategories();
+    // await postCategories();
+
+    setCategories(items);
+
+  }
+
 
   return (
     <>
@@ -94,7 +160,7 @@ function ManagerPage() {
           }}
         >
           <Menu
-            style={{ width: 256, background: 'transparent' }}
+            style={{ width: 256, background: 'transparent', position: 'relative', left: '20px' }}
             selectedKeys={[selectedKeys]}
             defaultOpenKeys={['sub0']}
             mode="inline"
@@ -109,12 +175,12 @@ function ManagerPage() {
             </Button>
           </Menu>
           <Menu
-            style={{ width: 256, background: 'transparent' }}
+            style={{ width: 240, background: 'transparent' }}
             selectedKeys={[selectedKeys.toString()]}
             defaultOpenKeys={['sub0']}
             mode="inline"
           >
-            {categories.map(category => (
+            {categories.map((category, index) => (
               <Menu.Item key={category.CategoryID}>
                 <div
                   style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}
@@ -125,6 +191,9 @@ function ManagerPage() {
                   }}
                 >
                   <span>{category.CategoryName}</span>
+                  <Button type="primary" icon={<ArrowUpOutlined />} onClick={() => moveUp(index)} />
+                  <Button type="primary" icon={<ArrowDownOutlined />} onClick={() => moveDown(index)} />
+
                   <Button
                     type="danger"
                     icon={<DeleteOutlined />}
@@ -134,7 +203,7 @@ function ManagerPage() {
                       setShowAllDishes(true);
                       navigate("/manager");
                     }}
-                    style={{ marginLeft: "10px", right: '70px' }}
+                    style={{ marginLeft: "10px", right: '20px' }}
                   />
                 </div>
               </Menu.Item>
