@@ -22,3 +22,7 @@ Plan for sprint 2 page layout and interfaces.
 week 7:
 Bugs are all fixed.
 Plan about interfaces and frontend layout design for next sprint.
+
+week 8:
+Updating order in manager system completed.
+shopping chart functionality completed.

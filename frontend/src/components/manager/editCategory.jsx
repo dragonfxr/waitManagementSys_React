@@ -95,7 +95,7 @@ function EditCategoryPage({ showAllDishes }) {
     // fetch dishes with specific categories
     useEffect(() => {
         const fetchDishData = async () => {
-            const response = await fetch(`http://localhost:8000/hungry/select/${categoryInfo.categoryId}`, {
+            const response = await fetch(`http://localhost:8000/hungry/filter_dish/${categoryInfo.categoryId}`, {
                 method: 'GET'
             });
             const data = await response.json();
