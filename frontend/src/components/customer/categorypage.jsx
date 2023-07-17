@@ -73,9 +73,6 @@ function CategoryPage() {
         }
     };
 
-    console.log(orderData);
-
-
     return (
         <>
             <List
@@ -126,7 +123,7 @@ function CategoryPage() {
                 }
             />
 
-            <CartEdit />
+            <CartEdit orderData={orderData} />
 
         </>
     )
