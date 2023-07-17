@@ -6,14 +6,13 @@ import './manager.css';
 import EditCategoryPage from "./editCategory";
 
 function ManagerPage() {
-  const [categories, setCategories] = useState([]);
   const location = useLocation()
-
+  const { Header, Content, Footer, Sider } = Layout;
+  const navigate = useNavigate();
+  
+  const [categories, setCategories] = useState([]);
   const [showAllDishes, setShowAllDishes] = useState(true);
   const [selectedKeys, setSelectedKeys] = useState('0');
-  const navigate = useNavigate();
-  const { Header, Content, Footer, Sider } = Layout;
-
   const [visible, setVisible] = useState(false);
   const [inputValue, setInputValue] = useState('');
 

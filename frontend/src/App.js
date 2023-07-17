@@ -23,7 +23,6 @@ function App() {
         </Route>
         <Route path='/waiter' element={<WaiterPage />}/>
         <Route path='/kitchen' element={<KitchenPage />}/>
-
       </Routes>
     </BrowserRouter>
   
