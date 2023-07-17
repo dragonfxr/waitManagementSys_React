@@ -22,7 +22,7 @@ function WaiterPage() {
     };
 
     const changeTableStatus = async (table) => {
-      const response = await fetch(`http://localhost:8000/hungry/tables/${table.TableID}`, {
+      await fetch(`http://localhost:8000/hungry/tables/${table.TableID}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -32,7 +32,6 @@ function WaiterPage() {
           "CallingWaiter": !table.CallingWaiter
         })
       });
-      
   };
   
     useEffect(() => {

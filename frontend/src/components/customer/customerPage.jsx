@@ -3,17 +3,14 @@ import { Menu, Layout, Button, Modal } from 'antd';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { BellOutlined, HomeOutlined, DoubleLeftOutlined } from '@ant-design/icons';
 import { useParams } from "react-router-dom";
-/* <link rel="stylesheet" href="customer.css" /> */
 
 function CustomerPage() {
     const [categories, setCategories] = useState([]);// store all categories
+    const [isCalling, setIsCalling] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const { Header, Content, Footer, Sider } = Layout;
     const tableId = useParams();
-    // localStorage.setItem('tableId', useParams().toString());
-    // const tableId = localStorage.getItem('tableId');
-    // console.log(tableId.tableId);
 
     useEffect(() => {
         const fetchMenuData = async () => {
@@ -25,6 +22,33 @@ function CustomerPage() {
         }
         fetchMenuData();
     }, [])
+
+
+    const callAssistance = async () => {
+        await fetch(`http://localhost:8000/hungry/tables/${tableId.tableId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            "TableID": tableId.tableId,
+            "CallingWaiter": true,
+          })
+        });
+        setIsCalling(true);
+    };
+
+    useEffect(() => {
+        const fetchAssistanceStatus = async () => {
+            const response = await fetch(`http://localhost:8000/hungry/tables/${tableId.tableId}`, {
+                method: 'GET'
+            });
+            const data = await response.json();
+            setIsCalling(data.CallingWaiter);
+        }
+        fetchAssistanceStatus();
+    }, [tableId.tableId])
+
 
     return (
         <>
@@ -64,9 +88,15 @@ function CustomerPage() {
                             shape="circle"
                             size="large"
                             icon={<BellOutlined />}
-                            onClick={() => alert("Ring the bell!")}
+                            onClick={() => {
+                                if (!isCalling) {
+                                  callAssistance();
+                                  alert("Ring the bell!");
+                                }
+                              }}
                             style={{ marginRight: '20px' }}
                             title="Call for assistance"
+                            disabled={isCalling} // Disable the button when is calling
                         />
                         <Button
                             type="primary"
