@@ -1,0 +1,36 @@
+Week1:
+Group formed and named. Selected Scrum Master. Created the Jira Site. Decided on the topic with other group members. Done some brainstorming on what the novel functions will be. 
+We also decided to split the group into two sub-groups and work on front end and back end separately.
+I'm the scrum master
+
+Week 2:
+We selected the framework that will be used in both front end and back end. We have started to build a very simple interface as a try, but haven't make it work yet.
+We have discussed the novel functions and comfirmed with the tutor.
+Started writing the proposal.
+Get used to Jira and GitHub. However, we faced some issue on pushing to GitHub, which found out to be the problem of the file.
+
+Week 3:
+Finshing up the proposal.
+Decides some data structure of some instances.
+
+Week 4:
+We have discussed the design of apis and the format of data. The proposal had beed submitted.
+Start looking at the UI design, and have decided to use some external libraries to finish up the UI design.
+Finished drafting the homepage of our web, and some routing of the pages have been set.
+
+Week 5:
+The backend group has finished the apis that we need for Demo 1, and we have tested them together.
+Recieved the feedback of the proposal so we have already discussed it.
+Try to finish the front end program by Thursday this week.
+
+Week 6:
+Finished the retro.
+Flex Week
+
+Week 7:
+We have a huge discussion on the design of apis, especially the json format of the data.
+I have fixed some bugs that happened in Demo 1.
+Updated sprint 2
+
+Week 8:
+Apis finished, so frontend team start to implement the front end program. (Demo 2 on Thursday)
