@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Menu, Layout, Button, Modal, Input, message } from 'antd';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { Layout, Button, List, Card } from 'antd';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { HomeOutlined, EditOutlined, DeleteOutlined, ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import './waiter.css'; // Import the CSS file
 
@@ -8,6 +8,8 @@ import './waiter.css'; // Import the CSS file
 function WaiterPage() {
   const { Header, Content, Footer, Sider } = Layout;
   const [tables, setTables] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [dishes, setDishes] = useState([]);
   // const location = useLocation();
   const navigate = useNavigate();  
   // const [previousTables, setPreviousTables] = useState([]);  
@@ -19,6 +21,8 @@ function WaiterPage() {
       const data = await response.json();
       return data;
   };  
+
+
   const changeTableStatus = async (table) => {
     await fetch(`http://localhost:8000/hungry/tables/${table.TableID}`, {
       method: 'PUT',
@@ -47,6 +51,19 @@ function WaiterPage() {
     updatedTables[index].CallingWaiter = !updatedTables[index].CallingWaiter;
     setTables(updatedTables);
   };
+    
+  useEffect(() => {
+    const fetchAllOrders = async () => {
+        const response = await fetch('http://localhost:8000/hungry/orders/', {
+            method: 'GET'
+        });
+        const data = await response.json();
+        setOrders(data);
+    }
+    fetchAllOrders();
+}, [])
+
+
   return (
       <>
           <Layout>
@@ -91,9 +108,47 @@ function WaiterPage() {
                   />
                 </Header>
       
-                <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-                  Content
-                </Content>
+                <Content style={{ margin: '24px 16px 0', overflow: 'initial', marginLeft: 24}}>
+            <div style={{ padding: 24, background: '#fff', textAlign: 'center' }}>
+            <Outlet />
+            <List
+              grid={{ gutter: 16, column: 1 }}
+              dataSource={orders}
+              renderItem={order => (
+                <List.Item>
+                  <Card style={{ width: '100%'}}>
+                    <div style={{
+                      display: 'flex', alignItems: 'center',
+                      justifyContent: 'left'
+                    }}>
+                      <div style={{ marginRight: '10vw', marginLeft: '40px' , flex: 1}}>
+                        <h4>Table {order.TableID}</h4>
+                        <h4>id: {order.OrderID}</h4>
+                        <h4>Pay Status: <span style={{ color: order.PayStatus ? 'black' : 'red' }}>{order.PayStatus ? 'Paid' : 'Unpaid'}</span></h4>
+                      </div>
+                      <div style={{ marginLeft: '40px' , flex:5}}>
+                        <List
+                          grid={{ gutter: 16, column: 1 }}
+                          dataSource={Array.from(order.DishList)}
+                          renderItem={dish => (
+                            <List.Item style={{ padding: '8px', display: 'flex', alignItems: 'center' }}>
+                              <Card style={{ width: '40vw', textAlign: 'Left' }}>
+                                <h4 style={{ margin: 0 }}>Dish ID: {dish.DishID}</h4>
+                                <h4 style={{ margin: 0 }}>Amount: {dish.DishAmount}</h4>
+                              </Card>
+                            </List.Item>
+                          )}
+                        />
+                      </div>
+                  </div>
+                    
+                  </Card>
+                </List.Item>
+              )}
+            />
+
+            </div>
+          </Content>
       
                 <Footer style={{ textAlign: 'center' }}>
                   <div style={{ margin: 20 }}>
@@ -102,7 +157,9 @@ function WaiterPage() {
                 </Footer>
               </Layout>
           </Layout >
-      </>
+          
+         
+        </>
   )
 }
 
