@@ -43,7 +43,7 @@ function WaiterPage() {
     };
   
     fetchTableDataAndCheckChanges();
-  }, [tables]);
+  }, []);
   
 
   const clickAssistButton = (index) => {
@@ -62,6 +62,28 @@ function WaiterPage() {
     }
     fetchAllOrders();
 }, [])
+
+  useEffect(() => {
+    const fetchAllDishes = async () => {
+        const response = await fetch('http://localhost:8000/hungry/dishes/', {
+            method: 'GET'
+        });
+        const data = await response.json();
+        setDishes(data);
+    }
+    fetchAllDishes();
+  }, [])
+
+  // const dishesDict = dishes.reduce((result, dish) => {
+  //   result[dish.DishID] = dish.DishName;
+  //   return result;
+  // }, {});
+  // // console.log(dishesDict[8]);
+  const dishesDict = {};
+  for (const dish of dishes) {
+    dishesDict[dish.DishID] = dish.DishName;
+  }
+  console.log(dishesDict[22]);
 
 
   return (
@@ -133,7 +155,7 @@ function WaiterPage() {
                           renderItem={dish => (
                             <List.Item style={{ padding: '8px', display: 'flex', alignItems: 'center' }}>
                               <Card style={{ width: '40vw', textAlign: 'Left' }}>
-                                <h4 style={{ margin: 0 }}>Dish ID: {dish.DishID}</h4>
+                                <h4 style={{ margin: 0 }}>Dish Name: {dishesDict[dish.DishID]}</h4>
                                 <h4 style={{ margin: 0 }}>Amount: {dish.DishAmount}</h4>
                               </Card>
                             </List.Item>
