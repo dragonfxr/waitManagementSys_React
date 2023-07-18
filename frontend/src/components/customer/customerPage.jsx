@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Menu, Layout, Button, Modal } from 'antd';
+import { Menu, Layout, Button, Modal,message } from 'antd';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { BellOutlined, HomeOutlined, DoubleLeftOutlined } from '@ant-design/icons';
 import { useParams } from "react-router-dom";
@@ -20,8 +20,27 @@ function CustomerPage() {
             const data = await response.json();
             setCategories(data);
         }
+        const createNewTable = async () => {
+            const response = await fetch('http://localhost:8000/hungry/tables/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "TableID": tableId.tableId,
+                    "CallingWaiter": false
+                })
+            });
+            if (response.ok) {
+                message.success("Welcome to our restuarant!")
+            }
+            else{
+                message.success(`Welcome back! You are already at table ${tableId.tableId}!`)
+            }
+        }
+        createNewTable();
         fetchMenuData();
-    }, [])
+    }, [tableId.tableId])
 
 
     const callAssistance = async () => {
