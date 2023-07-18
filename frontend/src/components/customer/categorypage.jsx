@@ -7,9 +7,8 @@ import CartEdit from "./cartEdit";
 function CategoryPage() {
     const [dishData, setDishData] = useState([]);
     const [count, setCount] = useState({});
+    const [orderData, setOrderData] = useState([]);
     let categoryInfo = useParams();
-
-    const [orderData, setOrderdata] = useState([]);
 
     // fetch dishes with specific categories
     useEffect(() => {
@@ -35,7 +34,7 @@ function CategoryPage() {
 
         if (dishIndex !== -1) {
             // DishID already exists in orderData, just update the DishAmount
-            setOrderdata(orderData => {
+            setOrderData(orderData => {
                 const newOrderData = [...orderData];
                 newOrderData[dishIndex].DishAmount = (count[DishID] || 0) + 1;
                 return newOrderData;
@@ -49,7 +48,7 @@ function CategoryPage() {
                 "DishID": DishID
             }];
 
-            setOrderdata(newOrderData);
+            setOrderData(newOrderData);
         }
     };
 
@@ -63,15 +62,27 @@ function CategoryPage() {
 
         if (dishIndex !== -1) {
             const newOrderData = [...orderData];
-            console.log(newOrderData[dishIndex].DishAmount);
             if (newOrderData[dishIndex].DishAmount > 1) {
                 newOrderData[dishIndex].DishAmount -= 1;
             } else {
                 newOrderData.splice(dishIndex, 1);
             }
-            setOrderdata(newOrderData);
+            setOrderData(newOrderData);
         }
     };
+
+    // in shopping chart, orderdata will be modified, it needs a callback function
+    const updateOrderData = (newData) => {
+        setOrderData(newData);
+    };
+
+    useEffect(() => {
+        let newcount = {};
+        orderData.forEach(item => {
+            newcount[item.DishID] = item.DishAmount || 0
+        });
+        setCount(newcount);
+    }, [orderData])
 
     return (
         <>
@@ -123,7 +134,7 @@ function CategoryPage() {
                 }
             />
 
-            <CartEdit orderData={orderData} />
+            <CartEdit orderData={orderData} updateOrderData={updateOrderData} />
 
         </>
     )

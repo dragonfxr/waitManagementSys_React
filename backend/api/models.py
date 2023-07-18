@@ -27,7 +27,7 @@ class Dish(models.Model):
 class OrderDetail(models.Model):
     OrderDetailID = models.IntegerField(primary_key=True)
     OrderID = models.ForeignKey('OrderTable',to_field="OrderID",on_delete=models.CASCADE)
-    DishID = models.ForeignKey('Dish',to_field="DishID",on_delete=models.PROTECT)
+    DishID = models.ForeignKey('Dish',to_field="DishID",on_delete=models.CASCADE)
     DishAmount = models.IntegerField(default=1)
     CompleteStatus = models.IntegerField(default=0, choices=((0, 'Not taking the order'), (1, 'Being prepared'), 
                                         (2, 'Waiting for serving'), (3, 'Serving completed')))
