@@ -14,15 +14,8 @@ function WaiterPage() {
   const navigate = useNavigate();  
   // const [previousTables, setPreviousTables] = useState([]);  
   
-  const fetchTableData = async () => {
-      const response = await fetch('http://localhost:8000/hungry/tables/', {
-        method: 'GET'
-      });
-      const data = await response.json();
-      return data;
-  };  
-
-
+  
+  
   const changeTableStatus = async (table) => {
     await fetch(`http://localhost:8000/hungry/tables/${table.TableID}`, {
       method: 'PUT',
@@ -36,13 +29,27 @@ function WaiterPage() {
     });
   };
   
+  const fetchTableData = async () => {
+      const response = await fetch('http://localhost:8000/hungry/tables/', {
+        method: 'GET'
+      });
+      const data = await response.json();
+      return data;
+  };  
+  
   useEffect(() => {
     const fetchTableDataAndCheckChanges = async () => {
       const initialTables = await fetchTableData();
       setTables(initialTables);
     };
-  
+
     fetchTableDataAndCheckChanges();
+  
+    const intervalId = setInterval(fetchTableDataAndCheckChanges, 5000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
   
 
