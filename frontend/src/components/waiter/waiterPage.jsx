@@ -101,16 +101,24 @@ function WaiterPage() {
   //   setTables(updatedTables);
   // };
     
+  const fetchAllOrders = async () => {
+    const response = await fetch('http://localhost:8000/hungry/orders/', {
+      method: 'GET'
+    });
+    const data = await response.json();
+    setOrders(data);
+  };
+
   useEffect(() => {
-    const fetchAllOrders = async () => {
-        const response = await fetch('http://localhost:8000/hungry/orders/', {
-            method: 'GET'
-        });
-        const data = await response.json();
-        setOrders(data);
-    }
+    // Fetch orders immediately when the component mounts
     fetchAllOrders();
-}, [])
+
+    // Fetch orders every 5 seconds
+    const intervalId = setInterval(fetchAllOrders, 5000);
+
+    // Clean up the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, []);
 
   useEffect(() => {
     const fetchAllDishes = async () => {
@@ -201,6 +209,7 @@ function WaiterPage() {
                               <Card style={{ width: '40vw', textAlign: 'Left' }}>
                                 <h4 style={{ margin: 0 }}>Dish Name: {dishesDict[dish.DishID]}</h4>
                                 <h4 style={{ margin: 0 }}>Amount: {dish.DishAmount}</h4>
+                                <h4 style={{ margin: 0 }}><span style={{ color: dish.CompleteStatus ? 'green' : 'red' }}>{dish.CompleteStatus ? 'Served': 'Preparing'}</span></h4>
                               </Card>
                             </List.Item>
                           )}

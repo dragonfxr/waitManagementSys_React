@@ -1,4 +1,4 @@
-import { Button, Modal, Card, Statistic } from "antd";
+import { Button, Modal, Card, Statistic, message } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { useState, useEffect, useCallback } from "react";
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
@@ -10,6 +10,7 @@ function CartEdit({ orderData, updateOrderData }) {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [totalPrice, setTotalPrice] = useState(0);
     const [dishPrices, setDishPrices] = useState({});
+    const [orderID, setOrderID] = useState();
     const tableId = useParams();
     const navigate = useNavigate();
 
@@ -53,16 +54,6 @@ function CartEdit({ orderData, updateOrderData }) {
     }
 
     const postOrderData = async () => {
-        // const bodyData = {
-        //     DishList: orderData,
-        //     TotalAmount: calcAmount(orderData),
-        //     TotalPrice: totalPrice,
-        //     PayTime: getDate(),
-        //     PayStatus: false,
-        //     TableID: Number(tableId.tableId)
-        // };
-        // // console.log(bodyData);
-
         const response = await fetch('http://localhost:8000/hungry/orders/', {
             method: 'POST',
             headers: {
@@ -77,14 +68,40 @@ function CartEdit({ orderData, updateOrderData }) {
                 TableID: Number(tableId.tableId)
             })
         });
+        const data = await response.json();
 
         if (response.ok) {
-            navigate(`/customer/${tableId.tableId}/success`)
+            // navigate(`/customer/${tableId.tableId}/success`);
+            message.success("Congratulations, your order has been sent to the kitchen!!");
+            // console.log(data.OrderID)
+            setOrderID(data.OrderID);
         }
 
     }
 
-    console.log(orderData);
+    const checkOut = async () => {
+        const response = await fetch(`http://localhost:8000/hungry/orders/${orderID}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                DishList: orderData,
+                TotalAmount: calcAmount(orderData),
+                TotalPrice: totalPrice,
+                PayTime: getDate(),
+                PayStatus: true,
+                TableID: Number(tableId.tableId)
+            })
+        });
+        // console.log(orderID);
+        if (response.ok) {
+            navigate(`/customer/${tableId.tableId}/success`);
+        }
+
+    }
+
+    // console.log(orderData);
 
     return (
         <>
@@ -103,7 +120,7 @@ function CartEdit({ orderData, updateOrderData }) {
                 onClick={showModal}
             />
 
-            <Modal title="Order" open={isModalVisible}
+            <Modal title="Your Dishes" open={isModalVisible}
                 onOk={() => {
                     handleOk();
                     postOrderData();
@@ -114,7 +131,8 @@ function CartEdit({ orderData, updateOrderData }) {
 
                 ))}
                 <ShowTotalPrice totalPrice={totalPrice} />
-                <Button>
+                <Button
+                    onClick={() => {checkOut()}}>
                     Check Out
                   </Button>
             </Modal>
