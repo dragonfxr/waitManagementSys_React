@@ -7,6 +7,7 @@ import WaiterPage from './components/waiter/waiterPage';
 import KitchenPage from './components/kitchen/kitchenPage';
 import CategoryPage from './components/customer/categorypage';
 import EditCategoryPage from './components/manager/editCategory';
+import PaySuccess from './components/customer/paySuccess';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         </Route>
         <Route path='/customer/:tableId' element={<CustomerPage />}>
           <Route path='menu/:categoryId' element={<CategoryPage />} />
+          <Route path='success' element={<PaySuccess />} />
         </Route>
         <Route path='/waiter' element={<WaiterPage />}/>
         <Route path='/kitchen' element={<KitchenPage />}/>

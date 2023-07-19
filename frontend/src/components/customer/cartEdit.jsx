@@ -1,12 +1,17 @@
-import { Button, Modal, Card } from "antd";
+import { Button, Modal, Card, Statistic } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
+import { useParams, useNavigate } from "react-router-dom";
+
 
 
 function CartEdit({ orderData, updateOrderData }) {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [totalPrice, setTotalPrice] = useState(0);
+    const [dishPrices, setDishPrices] = useState({});
+    const tableId = useParams();
+    const navigate = useNavigate();
 
 
     const showModal = () => {
@@ -21,10 +26,65 @@ function CartEdit({ orderData, updateOrderData }) {
         setIsModalVisible(false);
     }
 
-    const updataTotalPrice = (price) => {
-        setTotalPrice((prevPrice) => prevPrice + price);
+    const updateTotalPrice = useCallback((dishId, price) => {
+        setDishPrices(prevPrices => ({ ...prevPrices, [dishId]: price }));
+    }, []);
+
+    useEffect(() => {
+        let newTotalPrice = Object.values(dishPrices).reduce((a, b) => a + b, 0);
+        setTotalPrice(newTotalPrice);
+    }, [dishPrices]);
+
+    const calcAmount = (orderData) => {
+        const amount = orderData.reduce((total, dish) => total + dish.DishAmount, 0);
+        return amount;
     }
 
+    const getDate = () => {
+        let date = new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        if (month < 10) month = '0' + month;
+        if (day < 10) day = '0' + day;
+        let dateString = `${year}-${month}-${day}`;
+
+        return dateString;
+    }
+
+    const postOrderData = async () => {
+        const bodyData = {
+            DishList: orderData,
+            TotalAmount: calcAmount(orderData),
+            TotalPrice: totalPrice,
+            PayTime: getDate(),
+            PayStatus: false,
+            TableID: Number(tableId.tableId)
+        };
+        console.log(bodyData);
+
+        const response = await fetch('http://localhost:8000/hungry/orders/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                DishList: orderData,
+                TotalAmount: calcAmount(orderData),
+                TotalPrice: totalPrice,
+                PayTime: getDate(),
+                PayStatus: false,
+                TableID: Number(tableId.tableId)
+            })
+        });
+
+        if (response.ok) {
+            navigate(`/customer/${tableId.tableId}/success`)
+        }
+
+    }
+
+    console.log(orderData);
 
     return (
         <>
@@ -43,23 +103,25 @@ function CartEdit({ orderData, updateOrderData }) {
                 onClick={showModal}
             />
 
-            <Modal title="Order" open={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title="Order" open={isModalVisible}
+                onOk={() => {
+                    handleOk();
+                    postOrderData();
+                }}
+                onCancel={handleCancel} okText="Check Out">
                 {orderData.map((dish) => (
-                    <DishDetail key={dish.DishID} dish={dish} orderData={orderData} updateOrderData={updateOrderData} updataTotalPrice={updataTotalPrice} totalPrice={totalPrice} />
+                    <DishDetail key={dish.DishID} dish={dish} orderData={orderData} updateOrderData={updateOrderData} updateTotalPrice={updateTotalPrice} totalPrice={totalPrice} />
 
                 ))}
+                <ShowTotalPrice totalPrice={totalPrice} />
             </Modal>
-            <div>
-                {totalPrice}
-            </div>
         </>
     )
 }
 
 
-function DishDetail({ dish, orderData, updateOrderData, updataTotalPrice, totalPrice }) {
+function DishDetail({ dish, orderData, updateOrderData, updateTotalPrice }) {
     const [detail, setDetail] = useState(null);
-
 
     useEffect(() => {
         const fetchDishData = async () => {
@@ -75,10 +137,13 @@ function DishDetail({ dish, orderData, updateOrderData, updataTotalPrice, totalP
 
     }, [dish.DishID]);
 
-    const calcPrice = () => {
-        const dishprice = dish.DishAmount * detail.Price;
-        updataTotalPrice(dishprice);
-    }
+    useEffect(() => {
+        if (detail) {
+            const price = dish.DishAmount * detail.Price;
+            updateTotalPrice(dish.DishID, price);
+        }
+    }, [dish.DishAmount, detail, dish.DishID, updateTotalPrice]);
+
 
 
     if (!detail) {
@@ -104,14 +169,12 @@ function DishDetail({ dish, orderData, updateOrderData, updataTotalPrice, totalP
                 newOrderData[dishIndex].DishAmount -= 1;
             } else {
                 newOrderData.splice(dishIndex, 1);
+                updateTotalPrice(DishID, 0);
             }
             updateOrderData(newOrderData);
+
         }
     }
-
-
-
-
     return (
         <>
             <Card>
@@ -147,15 +210,17 @@ function DishDetail({ dish, orderData, updateOrderData, updataTotalPrice, totalP
                         />
                     </div>
                 </div>
-                <div>
-                    <button onClick={calcPrice}>Calculate Price</button>
-                </div>
-
-                <div>{totalPrice}</div>
-
             </Card>
+
         </>
     )
+}
+
+function ShowTotalPrice({ totalPrice }) {
+
+    return (<>
+        <Statistic title="Total Price" value={totalPrice} precision={1} />
+    </>)
 }
 
 export default CartEdit;
