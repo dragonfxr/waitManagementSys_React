@@ -114,17 +114,16 @@ function CategoryPage() {
                                     <Button
                                         type="primary"
                                         shape="circle"
-                                        icon={<PlusOutlined />}
-                                        onClick={() => PlusCount(dish.DishID)}
+                                        icon={<MinusOutlined />}
+                                        onClick={() => MinusCount(dish.DishID)}
                                     />
                                     <p style={{ margin: '0 16px' }}>{count[dish.DishID] || 0}</p>
                                     <Button
                                         type="primary"
                                         shape="circle"
-                                        icon={<MinusOutlined />}
-                                        onClick={() => MinusCount(dish.DishID)}
+                                        icon={<PlusOutlined />}
+                                        onClick={() => PlusCount(dish.DishID)}
                                     />
-
 
                                 </div>
                             </div>

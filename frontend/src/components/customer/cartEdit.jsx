@@ -53,15 +53,15 @@ function CartEdit({ orderData, updateOrderData }) {
     }
 
     const postOrderData = async () => {
-        const bodyData = {
-            DishList: orderData,
-            TotalAmount: calcAmount(orderData),
-            TotalPrice: totalPrice,
-            PayTime: getDate(),
-            PayStatus: false,
-            TableID: Number(tableId.tableId)
-        };
-        console.log(bodyData);
+        // const bodyData = {
+        //     DishList: orderData,
+        //     TotalAmount: calcAmount(orderData),
+        //     TotalPrice: totalPrice,
+        //     PayTime: getDate(),
+        //     PayStatus: false,
+        //     TableID: Number(tableId.tableId)
+        // };
+        // // console.log(bodyData);
 
         const response = await fetch('http://localhost:8000/hungry/orders/', {
             method: 'POST',
@@ -108,12 +108,15 @@ function CartEdit({ orderData, updateOrderData }) {
                     handleOk();
                     postOrderData();
                 }}
-                onCancel={handleCancel} okText="Check Out">
+                onCancel={handleCancel} okText="Send to Kitchen">
                 {orderData.map((dish) => (
                     <DishDetail key={dish.DishID} dish={dish} orderData={orderData} updateOrderData={updateOrderData} updateTotalPrice={updateTotalPrice} totalPrice={totalPrice} />
 
                 ))}
                 <ShowTotalPrice totalPrice={totalPrice} />
+                <Button>
+                    Check Out
+                  </Button>
             </Modal>
         </>
     )
@@ -198,15 +201,15 @@ function DishDetail({ dish, orderData, updateOrderData, updateTotalPrice }) {
                         <Button
                             type="primary"
                             shape="circle"
-                            icon={<PlusOutlined />}
-                            onClick={() => PlusCount(dish.DishID)}
+                            icon={<MinusOutlined />}
+                            onClick={() => MinusCount(dish.DishID)}
                         />
                         <p style={{ margin: '0 16px' }}>{dish.DishAmount || 0}</p>
                         <Button
                             type="primary"
                             shape="circle"
-                            icon={<MinusOutlined />}
-                            onClick={() => MinusCount(dish.DishID)}
+                            icon={<PlusOutlined />}
+                            onClick={() => PlusCount(dish.DishID)}
                         />
                     </div>
                 </div>
