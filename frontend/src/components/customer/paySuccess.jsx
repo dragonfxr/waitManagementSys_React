@@ -8,15 +8,15 @@ function PaySuccess() {
     return (
         <Result
             status="success"
-            title="Successfully Paid!"
-            subTitle="Your order has been received, thank you for your order."
+            title="Your bill has been sent to the counter!"
+            subTitle="Please pay at the counter, see you next time!"
             extra={[
                 <Button type="primary" key="console"
                     onClick={() => navigate('/')}>
-                    Go Home
+                    Close
                 </Button>,
                 <Button key="buy"
-                    onClick={() => navigate(`/customer/${tableid.tableId}`)}>Buy Again</Button>
+                    onClick={() => navigate(`/customer/${tableid.tableId}`)}>Order More</Button>
             ]}
         />
     );
