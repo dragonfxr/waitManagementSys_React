@@ -1,18 +1,42 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Button, List, Card } from 'antd';
+import { Layout, Button, List, Card, message } from 'antd';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { HomeOutlined, EditOutlined, DeleteOutlined, ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
+import { HomeOutlined } from '@ant-design/icons';
 import './waiter.css'; // Import the CSS file
 
 
 function WaiterPage() {
   const { Header, Content, Footer, Sider } = Layout;
   const [tables, setTables] = useState([]);
+  const [newTables, setNewTables] = useState([]);
   const [orders, setOrders] = useState([]);
   const [dishes, setDishes] = useState([]);
   // const location = useLocation();
   const navigate = useNavigate();  
   // const [previousTables, setPreviousTables] = useState([]);  
+  // const [newTables, setNewTables] = useState([]);
+  // const prevTables = useRef(tables);
+
+  // useEffect(() => {
+  //   // This effect will run whenever the list state changes
+  //   const checkChanges = () => {
+  //     if (newTables) {
+  //       const changedElements = tables.filter(
+  //         (currentElement, index) => JSON.stringify(currentElement.CallingWaiter) !== JSON.stringify(newTables[index].CallingWaiter)
+  //       );
+
+  //       // Do something with the changed elements
+  //       console.log('Changed elements:', changedElements);
+  //     }
+  //   };
+
+  //   // Call the checkChanges function
+  //   checkChanges();
+
+  //   // Update the prevListRef with the current list for the next comparison
+  //   setNewTables(tables);
+  // }, [tables]);
+
   
   
   
@@ -24,40 +48,58 @@ function WaiterPage() {
       },
       body: JSON.stringify({
         "TableID": table.TableID,
-        "CallingWaiter": !table.CallingWaiter
+        "CallingWaiter": false
       })
     });
   };
   
-  const fetchTableData = async () => {
-      const response = await fetch('http://localhost:8000/hungry/tables/', {
-        method: 'GET'
-      });
-      const data = await response.json();
-      return data;
-  };  
-  
+  // Fetch table data periodically
   useEffect(() => {
-    const fetchTableDataAndCheckChanges = async () => {
-      const initialTables = await fetchTableData();
-      setTables(initialTables);
-    };
+    const fetchTableData = async () => {
+        const response = await fetch('http://localhost:8000/hungry/tables/', {
+          method: 'GET'
+        });
+        const data = await response.json();
+        return data;
+    };  
 
-    fetchTableDataAndCheckChanges();
-  
-    const intervalId = setInterval(fetchTableDataAndCheckChanges, 5000);
+    const fetchNewTableData = async () => {
+      const initialTables = await fetchTableData();
+        // setTables(initialTables);
+        setNewTables(initialTables);
+      }
+
+      fetchNewTableData();
+      
+    const intervalId = setInterval(fetchNewTableData, 5000);
 
     return () => {
       clearInterval(intervalId);
     };
   }, []);
+
+  // Hook to check if table data changes
+  useEffect(() => {
+    if (JSON.stringify(newTables) !== JSON.stringify(tables)){
+      console.log("Changed");
+      const changedElements = tables.filter(
+        (currentElement, index) => JSON.stringify(currentElement.CallingWaiter) !== JSON.stringify(newTables[index].CallingWaiter)
+      );
+
+      // Do something with the changed elements
+      if (changedElements.length && changedElements[0].CallingWaiter === false){
+        message.warning(`Table ${changedElements[0].TableID} is calling for assistance!`);
+      }
+      setTables(newTables);
+    }
+  }, [newTables, tables]);
   
 
-  const clickAssistButton = (index) => {
-    const updatedTables = [...tables];
-    updatedTables[index].CallingWaiter = !updatedTables[index].CallingWaiter;
-    setTables(updatedTables);
-  };
+  // const clickAssistButton = (index) => {
+  //   const updatedTables = [...tables];
+  //   updatedTables[index].CallingWaiter = !updatedTables[index].CallingWaiter;
+  //   setTables(updatedTables);
+  // };
     
   useEffect(() => {
     const fetchAllOrders = async () => {
@@ -81,16 +123,11 @@ function WaiterPage() {
     fetchAllDishes();
   }, [])
 
-  // const dishesDict = dishes.reduce((result, dish) => {
-  //   result[dish.DishID] = dish.DishName;
-  //   return result;
-  // }, {});
-  // // console.log(dishesDict[8]);
   const dishesDict = {};
   for (const dish of dishes) {
     dishesDict[dish.DishID] = dish.DishName;
   }
-  console.log(dishesDict[22]);
+  // console.log(dishesDict[22]);
 
 
   return (
@@ -115,7 +152,7 @@ function WaiterPage() {
                       className={`waiter-page-button ${table.CallingWaiter ? 'red' : 'green'}`}
                       onClick={() => {
                         changeTableStatus(table);
-                        clickAssistButton(index)
+                        // clickAssistButton(index)
                       }}
                     >
                       {table.CallingWaiter ? ' Calling' : 'Normal'}
