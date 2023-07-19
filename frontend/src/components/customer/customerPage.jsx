@@ -56,6 +56,19 @@ function CustomerPage() {
         });
         setIsCalling(true);
     };
+    const getAssistanceStatus = async () => {
+        const response = await fetch(`http://localhost:8000/hungry/tables/${tableId.tableId}`, {
+          method: 'GET',
+        });
+        const data = await response.json();
+        setIsCalling(data.CallingWaiter);
+      };
+    
+      useEffect(() => {
+        getAssistanceStatus();
+        const intervalId = setInterval(getAssistanceStatus, 5000);
+        return () => clearInterval(intervalId);
+      }, []);
 
     useEffect(() => {
         const fetchAssistanceStatus = async () => {
@@ -110,7 +123,7 @@ function CustomerPage() {
                             onClick={() => {
                                 if (!isCalling) {
                                   callAssistance();
-                                  alert("Ring the bell!");
+                                  message.success("We are coming for help!");
                                 }
                               }}
                             style={{ marginRight: '20px' }}
