@@ -109,6 +109,43 @@ function WaiterPage() {
     setOrders(data);
   };
 
+  const serveDish = async (order, orderDetailIDToUpdate) => {
+    const orderID = order.OrderID
+  
+    const modifiedData = { ...order };
+  
+    // Find the index of the element in the DishList array with the matching OrderDetailID
+    const dishListIndex = modifiedData.DishList.findIndex(
+      (dish) => dish.OrderDetailID === orderDetailIDToUpdate
+    );
+  
+    // Check if the element with the specified OrderDetailID was found
+    if (dishListIndex !== -1) {
+      // Update the CompleteStatus property of the specific element in the cloned DishList array
+      modifiedData.DishList[dishListIndex].CompleteStatus = true;
+    } else {
+      console.error(`Element with OrderDetailID ${orderDetailIDToUpdate} not found.`);
+      return; // Exit the function if the element was not found
+    }
+  
+    // Prepare the PUT request
+    const requestOptions = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(modifiedData), // Convert the modified data to a JSON string
+    };
+  
+    // Replace 'YOUR_PUT_API_URL' with your actual API endpoint for updating the data
+    const response = await fetch(`http://localhost:8000/hungry/orders/${orderID}`, requestOptions);
+  
+    // Handle the response as needed
+    if (response.ok) {
+      message.success("Please go immediately")
+    } 
+  };
+
   useEffect(() => {
     // Fetch orders immediately when the component mounts
     fetchAllOrders();
@@ -209,7 +246,8 @@ function WaiterPage() {
                               <Card style={{ width: '40vw', textAlign: 'Left' }}>
                                 <h4 style={{ margin: 0 }}>Dish Name: {dishesDict[dish.DishID]}</h4>
                                 <h4 style={{ margin: 0 }}>Amount: {dish.DishAmount}</h4>
-                                <h4 style={{ margin: 0 }}><span style={{ color: dish.CompleteStatus ? 'green' : 'red' }}>{dish.CompleteStatus ? 'Served': 'Preparing'}</span></h4>
+                                <h4 style={{ margin: 0 }}><span style={{ color: dish.CompleteStatus ? 'green' : 'red' }}>Status: {dish.CompleteStatus ? 'Served': 'Preparing'}</span></h4>
+                                <Button type="primary" onClick={() => {serveDish(order, dish.OrderDetailID)}}>Serve</Button>
                               </Card>
                             </List.Item>
                           )}
