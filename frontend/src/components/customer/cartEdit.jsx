@@ -83,10 +83,11 @@ function CartEdit({ orderData, updateOrderData }) {
         if (storedCode && storedCode === inputCouponCode) {
             setTotalPrice(prevPrice => prevPrice * 0.9);
             message.success('Voucher applied successfully!😃');
+            setHasClicked(true);
         } else {
             message.error('Invalid voucher code!😥')
         }
-        setHasClicked(true);
+
     }
 
     // const checkOut = async () => {
@@ -142,7 +143,7 @@ function CartEdit({ orderData, updateOrderData }) {
                 ))}
                 <ShowTotalPrice totalPrice={totalPrice} />
                 <Input placeholder="Enter your coupon code here" value={inputCouponCode} onChange={e => setInputCouponCode(e.target.value)} style={{ width: 210 }}></Input>
-                <Button onClick={checkCouponCode} >Apply Voucher</Button>
+                <Button onClick={checkCouponCode} disabled={hasClicked} >Apply Voucher</Button>
             </Modal>
         </>
     )

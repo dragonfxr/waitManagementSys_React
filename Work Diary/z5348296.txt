@@ -25,4 +25,5 @@ Plan about interfaces and frontend layout design for next sprint.
 
 week 8:
 Updating order in manager system completed.
-shopping chart functionality completed.
+Shopping chart functionality completed.
+Voucher code system completed.
