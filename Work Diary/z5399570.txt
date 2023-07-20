@@ -33,6 +33,6 @@ Week7:
 2. Debug the issues for DishPrices.
 
 Week8:
-
+1. Complete all APIs
 
 
