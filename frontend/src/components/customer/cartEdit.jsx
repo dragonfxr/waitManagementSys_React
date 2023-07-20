@@ -1,18 +1,18 @@
-import { Button, Modal, Card, Statistic, message } from "antd";
+import { Button, Modal, Card, Statistic, message, Input } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { useState, useEffect, useCallback } from "react";
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import { useParams, useNavigate } from "react-router-dom";
 
-
-
 function CartEdit({ orderData, updateOrderData }) {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [totalPrice, setTotalPrice] = useState(0);
     const [dishPrices, setDishPrices] = useState({});
-    const [orderID, setOrderID] = useState();
+    // const [orderID, setOrderID] = useState();
     const tableId = useParams();
     const navigate = useNavigate();
+    const [inputCouponCode, setInputCouponCode] = useState('');
+    const [hasClicked, setHasClicked] = useState(false);
 
 
     const showModal = () => {
@@ -68,38 +68,48 @@ function CartEdit({ orderData, updateOrderData }) {
                 TableID: Number(tableId.tableId)
             })
         });
-        const data = await response.json();
+        // const data = await response.json();
 
-        if (response.ok) {
-            // navigate(`/customer/${tableId.tableId}/success`);
-            message.success("Congratulations, your order has been sent to the kitchen!!");
-            // console.log(data.OrderID)
-            setOrderID(data.OrderID);
-        }
-
-    }
-
-    const checkOut = async () => {
-        const response = await fetch(`http://localhost:8000/hungry/orders/${orderID}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                DishList: orderData,
-                TotalAmount: calcAmount(orderData),
-                TotalPrice: totalPrice,
-                PayTime: getDate(),
-                PayStatus: true,
-                TableID: Number(tableId.tableId)
-            })
-        });
-        // console.log(orderID);
         if (response.ok) {
             navigate(`/customer/${tableId.tableId}/success`);
+            message.success("Congratulations, your order has been sent to the kitchen!!");
+            // console.log(data.OrderID)
+            // setOrderID(data.OrderID);
         }
-
     }
+
+    const checkCouponCode = () => {
+        const storedCode = localStorage.getItem('couponCode');
+        if (storedCode && storedCode === inputCouponCode) {
+            setTotalPrice(prevPrice => prevPrice * 0.9);
+            message.success('Voucher applied successfully!😃');
+        } else {
+            message.error('Invalid voucher code!😥')
+        }
+        setHasClicked(true);
+    }
+
+    // const checkOut = async () => {
+    //     const response = await fetch(`http://localhost:8000/hungry/orders/${orderID}`, {
+    //         method: 'PUT',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             DishList: orderData,
+    //             TotalAmount: calcAmount(orderData),
+    //             TotalPrice: totalPrice,
+    //             PayTime: getDate(),
+    //             PayStatus: true,
+    //             TableID: Number(tableId.tableId)
+    //         })
+    //     });
+    //     // console.log(orderID);
+    //     if (response.ok) {
+    //         navigate(`/customer/${tableId.tableId}/success`);
+    //     }
+
+    // }
 
     // console.log(orderData);
 
@@ -125,16 +135,14 @@ function CartEdit({ orderData, updateOrderData }) {
                     handleOk();
                     postOrderData();
                 }}
-                onCancel={handleCancel} okText="Send to Kitchen">
+                onCancel={handleCancel} okText="Check Out">
                 {orderData.map((dish) => (
                     <DishDetail key={dish.DishID} dish={dish} orderData={orderData} updateOrderData={updateOrderData} updateTotalPrice={updateTotalPrice} totalPrice={totalPrice} />
 
                 ))}
                 <ShowTotalPrice totalPrice={totalPrice} />
-                <Button
-                    onClick={() => {checkOut()}}>
-                    Check Out
-                  </Button>
+                <Input placeholder="Enter your coupon code here" value={inputCouponCode} onChange={e => setInputCouponCode(e.target.value)} style={{ width: 210 }}></Input>
+                <Button onClick={checkCouponCode} >Apply Voucher</Button>
             </Modal>
         </>
     )

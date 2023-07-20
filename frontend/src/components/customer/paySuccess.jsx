@@ -5,10 +5,14 @@ function PaySuccess() {
     const navigate = useNavigate();
     const tableid = useParams();
 
+    const handlePayClick = () => {
+        navigate('/');
+    }
+
     return (
         <Result
             status="success"
-            title="Your bill has been sent to the counter!"
+            title="Your order has been sent to the kitchen!"
             subTitle="Please pay at the counter, see you next time!"
             extra={[
                 <Button type="primary" key="console"
@@ -16,7 +20,8 @@ function PaySuccess() {
                     Close
                 </Button>,
                 <Button key="buy"
-                    onClick={() => navigate(`/customer/${tableid.tableId}`)}>Order More</Button>
+                    onClick={() => navigate(`/customer/${tableid.tableId}`)}>Order More</Button>, <Button onClick={() => { handlePayClick(); }}>Pay Now</Button>
+
             ]}
         />
     );

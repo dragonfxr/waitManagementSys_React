@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Menu, Layout, Button, Modal,message } from 'antd';
+import { Menu, Layout, Button, Modal, message } from 'antd';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { BellOutlined, HomeOutlined, DoubleLeftOutlined } from '@ant-design/icons';
 import { useParams } from "react-router-dom";
@@ -11,6 +11,9 @@ function CustomerPage() {
     const location = useLocation();
     const { Header, Content, Footer, Sider } = Layout;
     const tableId = useParams();
+    const [visible, setVisible] = useState(false);
+    const [couponCode, setCouponCode] = useState('');
+
 
     useEffect(() => {
         const fetchMenuData = async () => {
@@ -34,7 +37,7 @@ function CustomerPage() {
             if (response.ok) {
                 message.success("Welcome to our restuarant!")
             }
-            else{
+            else {
                 message.success(`Welcome back! You are already at table ${tableId.tableId}!`)
             }
         }
@@ -45,30 +48,30 @@ function CustomerPage() {
 
     const callAssistance = async () => {
         await fetch(`http://localhost:8000/hungry/tables/${tableId.tableId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            "TableID": tableId.tableId,
-            "CallingWaiter": true,
-          })
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "TableID": tableId.tableId,
+                "CallingWaiter": true,
+            })
         });
         setIsCalling(true);
     };
     const getAssistanceStatus = async () => {
         const response = await fetch(`http://localhost:8000/hungry/tables/${tableId.tableId}`, {
-          method: 'GET',
+            method: 'GET',
         });
         const data = await response.json();
         setIsCalling(data.CallingWaiter);
-      };
-    
-      useEffect(() => {
+    };
+
+    useEffect(() => {
         getAssistanceStatus();
         const intervalId = setInterval(getAssistanceStatus, 5000);
         return () => clearInterval(intervalId);
-      }, []);
+    }, []);
 
     useEffect(() => {
         const fetchAssistanceStatus = async () => {
@@ -80,6 +83,19 @@ function CustomerPage() {
         }
         fetchAssistanceStatus();
     }, [tableId.tableId])
+
+    const generateCouponCode = () => {
+        const words = ['APPLE', 'APRICOT', 'AVOCADO', 'BANANA', 'BERRY', 'BLUEBERRY', 'BOYSENBERRY', 'CANTALOUPE', 'CHERRY', 'CITRUS', 'COCONUT', 'CRANBERRY', 'DATE', 'DRAGONFRUIT', 'ELDERBERRY', 'FIG', 'GRAPE', 'GRAPEFRUIT', 'GUAVA', 'KIWI', 'LEMON', 'LIME', 'LYCHEE', 'MANGO', 'MELON', 'NECTARINE', 'ORANGE', 'PAPAYA', 'PASSIONFRUIT', 'PEACH', 'PEAR', 'PERSIMMON', 'PINEAPPLE', 'PLUM', 'POMEGRANATE', 'RASPBERRY', 'STRAWBERRY', 'TANGERINE', 'WATERMELON'];
+        const randomIndex = Math.floor(Math.random() * words.length);
+        const code = words[randomIndex];
+        localStorage.setItem('couponCode', code);
+        setCouponCode(code);
+        setVisible(true);
+    };
+
+    const handleOk = () => {
+        setVisible(false);
+    };
 
 
     return (
@@ -122,10 +138,10 @@ function CustomerPage() {
                             icon={<BellOutlined />}
                             onClick={() => {
                                 if (!isCalling) {
-                                  callAssistance();
-                                  message.success("We are coming for help!");
+                                    callAssistance();
+                                    message.success("We are coming for help!");
                                 }
-                              }}
+                            }}
                             style={{ marginRight: '20px' }}
                             title="Call for assistance"
                             disabled={isCalling} // Disable the button when is calling
@@ -161,6 +177,15 @@ function CustomerPage() {
                         >
                             Select new table number
                         </Button>
+                        <Button onClick={generateCouponCode} style={{ marginLeft: '30px' }}>Get a 10% off Voucher Code</Button>
+                        <Modal
+                            title="Your Coupon Code"
+                            open={visible}
+                            onOk={handleOk}
+                            onCancel={() => setVisible(false)}
+                        >
+                            <p>{couponCode}</p>
+                        </Modal>
                     </Header>
                     <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
                         <div style={{ padding: 24, background: '#fff', textAlign: 'center' }}>
