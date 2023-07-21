@@ -27,3 +27,7 @@ Week6:
 Week7:
 1. Write API for OrderDetails.
 2. Try to solve the issues for DishPrices' automatic generation.
+
+Week8:
+1. Complete the api in sprint2.
+2. Rehearsal and inish the demo B in lab.
