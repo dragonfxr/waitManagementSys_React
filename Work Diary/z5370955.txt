@@ -28,3 +28,7 @@ Week6:
 Week7:
 1. Complete API for OrderDetails, especially DishAmount and DishPrices.
 2. Debug the issues for automatic computation of DishPrices.
+
+Week8:
+1. Complete and test all api for the user stories in sprint2.
+2. Finish the demo B.
