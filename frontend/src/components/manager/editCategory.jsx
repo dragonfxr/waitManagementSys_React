@@ -39,6 +39,7 @@ function EditCategoryPage({ showAllDishes }) {
 
     const showAddDishes = () => {
         setIsAddOpen(true);
+        setNewCategory(null);
         console.log(isAddOpen);
     }
 
@@ -134,7 +135,7 @@ function EditCategoryPage({ showAllDishes }) {
         }
     }
 
-    const addDish = async (dishCate) => {
+    const addDish = async () => {
         const response = await fetch(`http://localhost:8000/hungry/dishes/`, {
             method: 'POST',
             headers: {
@@ -145,7 +146,7 @@ function EditCategoryPage({ showAllDishes }) {
                 Price: Number(newPrice),
                 Description: newDescription,
                 Ingredients: newIngredients,//price not necessary
-                DishType: dishCate,
+                DishType: newCategory,
             })
         });
         if (response.ok) {
@@ -156,6 +157,8 @@ function EditCategoryPage({ showAllDishes }) {
     useEffect(() => {
         console.log("category: ", newCategory);
     }, [newCategory]);
+
+    console.log(dishes);
 
     return (
         <>
@@ -301,112 +304,115 @@ function EditCategoryPage({ showAllDishes }) {
 
                                     </Form>
                                 </Modal>
-                                {/* Add Dishes Window */}
-                                <Modal title="Add more dishes" open={isAddOpen}
-                                    onOk={() => {
-                                        addOk();
-                                        addDish(dish.DishType);
-                                    }}
-                                    onCancel={addCancel}>
-                                    <Form
-                                        name="basic"
-                                        labelCol={{
-                                            span: 8,
-                                        }}
-                                        wrapperCol={{
-                                            span: 16,
-                                        }}
-                                        style={{
-                                            maxWidth: 600,
-                                        }}
-                                        initialValues={{
-                                            remember: true,
-                                        }}
-                                        autoComplete="off"
-                                    >
-                                        <Form.Item
-                                            label="Dish Name"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Please specify the dish name!',
-                                                },
-                                            ]}
-                                            help="Please start with a capital letter!"
-                                        >
-                                            <Input placeholder={"Dish Name"}
-                                                onChange={e => setNewName(e.target.value)} />
-                                        </Form.Item>
-                                        <Form.Item
-                                            label="Dish Price"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Please specify the dish price!',
-                                                },
-                                            ]}
-                                            help="Please enter the price!"
-                                        >
-                                            <Input placeholder={0.00}
-                                                onChange={e => setNewPrice(e.target.value)} />
-                                        </Form.Item>
-                                        <Form.Item
-                                            label="Dish Description"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Please specify the dish description!',
-                                                },
-                                            ]}
-                                        >
-                                            <Input placeholder={"Description"} onChange={e => setNewDescription(e.target.value)} />
-                                        </Form.Item>
 
-                                        <Form.Item
-                                            label="Dish Ingredients"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Please specify the dish ingredients!',
-                                                },
-                                            ]}
-                                        >
-                                            <Input placeholder={"Ingredients"} onChange={e => setNewIngredients(e.target.value)} />
-                                        </Form.Item>
-
-                                        <Form.Item
-                                            label="Dish Category"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Please select from below.',
-                                                },
-                                            ]}
-                                        >
-                                            <Select
-                                                value={newCategory}
-                                                onChange={(value) => {
-                                                    setNewCategory(value); // Update the state with the new selected value
-
-                                                }}
-                                                style={{ width: '100%', height: '32px', padding: '6px' }}
-                                            >
-                                                {/* <option value="">-- Select Category --</option> */}
-                                                {categories.map((category) => (
-                                                    <Select.Option key={category.CategoryID} value={category.CategoryID}>
-                                                        {category.CategoryName}
-                                                    </Select.Option>
-                                                ))}
-                                            </Select>
-                                        </Form.Item>
-                                    </Form>
-                                </Modal>
                             </div>
                         </Card>
                     </List.Item >
                 )
                 }
             />
+
+            {/* Add Dishes Window */}
+            <Modal title="Add more dishes" open={isAddOpen}
+                onOk={() => {
+                    addOk();
+                    addDish();
+                }}
+                onCancel={addCancel}>
+                <Form
+                    name="basic"
+                    labelCol={{
+                        span: 8,
+                    }}
+                    wrapperCol={{
+                        span: 16,
+                    }}
+                    style={{
+                        maxWidth: 600,
+                    }}
+                    initialValues={{
+                        remember: true,
+                    }}
+                    autoComplete="off"
+                >
+                    <Form.Item
+                        label="Dish Name"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please specify the dish name!',
+                            },
+                        ]}
+                        help="Please start with a capital letter!"
+                    >
+                        <Input placeholder={"Dish Name"}
+                            onChange={e => setNewName(e.target.value)} />
+                    </Form.Item>
+                    <Form.Item
+                        label="Dish Price"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please specify the dish price!',
+                            },
+                        ]}
+                        help="Please enter the price!"
+                    >
+                        <Input placeholder={0.00}
+                            onChange={e => setNewPrice(e.target.value)} />
+                    </Form.Item>
+                    <Form.Item
+                        label="Dish Description"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please specify the dish description!',
+                            },
+                        ]}
+                    >
+                        <Input placeholder={"Description"} onChange={e => setNewDescription(e.target.value)} />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Dish Ingredients"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please specify the dish ingredients!',
+                            },
+                        ]}
+                    >
+                        <Input placeholder={"Ingredients"} onChange={e => setNewIngredients(e.target.value)} />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Dish Category"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please select from below.',
+                            },
+                        ]}
+                    >
+                        <Select
+                            value={newCategory}
+                            onChange={(value) => {
+                                setNewCategory(value); // Update the state with the new selected value
+
+                            }}
+                            style={{ width: '100%', height: '32px', padding: '6px' }}
+                        >
+                            {/* <option value="">-- Select Category --</option> */}
+                            {categories.map((category) => (
+                                <Select.Option key={category.CategoryID} value={category.CategoryID}>
+                                    {category.CategoryName}
+                                </Select.Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+                </Form>
+            </Modal>
+
             <Button type="primary" style={{
                 position: 'fixed',
                 right: '50px',
@@ -419,6 +425,7 @@ function EditCategoryPage({ showAllDishes }) {
             }}
                 onClick={() => showAddDishes()}> Add dish </Button>
         </>
+
     )
 
 }
