@@ -90,30 +90,6 @@ function CartEdit({ orderData, updateOrderData }) {
 
     }
 
-    // const checkOut = async () => {
-    //     const response = await fetch(`http://localhost:8000/hungry/orders/${orderID}`, {
-    //         method: 'PUT',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({
-    //             DishList: orderData,
-    //             TotalAmount: calcAmount(orderData),
-    //             TotalPrice: totalPrice,
-    //             PayTime: getDate(),
-    //             PayStatus: true,
-    //             TableID: Number(tableId.tableId)
-    //         })
-    //     });
-    //     // console.log(orderID);
-    //     if (response.ok) {
-    //         navigate(`/customer/${tableId.tableId}/success`);
-    //     }
-
-    // }
-
-    // console.log(orderData);
-
     return (
         <>
             <Button
