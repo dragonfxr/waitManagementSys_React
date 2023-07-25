@@ -9,8 +9,6 @@ function CategoryPage() {
     const [count, setCount] = useState({});
     const [orderData, setOrderData] = useState([]);
     const [historyOrderData, setHistoryOrderData] = useState([])
-    const [top5Dish, setTop5Dish] = useState([]);
-    const [isModalVisible, setIsModalVisible] = useState(false);
     let categoryInfo = useParams();
 
     // fetch dishes with specific categories
