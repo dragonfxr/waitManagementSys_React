@@ -48,9 +48,14 @@ function KitchenPage() {
                                     <p>Creation Time: {formatDate(order.CreateTime)}</p>
                                     <p>Table Number: {order.TableID}</p>
                                     <div style={{ position: "relative", left: "10px" }}>
-                                        {order.DishList.map(dish => (
-                                            dish.CompleteStatus === 0
-                                                ? (<DishDetail key={dish.DishID} dish={dish} />) : null))}
+                                        {order.DishList.every(dish => dish.CompleteStatus !== 0)
+                                            ? <p style={{ fontWeight: "bold" }}>All dishes completed</p>
+                                            : order.DishList.map(dish => (
+                                                dish.CompleteStatus === 0
+                                                    ? <DishDetail key={dish.DishID} order={order} dish={dish} />
+                                                    : null
+                                            ))
+                                        }
                                     </div>
                                 </Card>
                             </List.Item>
