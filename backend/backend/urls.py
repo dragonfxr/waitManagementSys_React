@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path, re_path
-from django.views.static import serve
+
 from drf_yasg2 import openapi
 from drf_yasg2.views import get_schema_view
 from rest_framework import permissions
@@ -38,5 +38,5 @@ urlpatterns = [
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),  
     path('admin/', admin.site.urls),
     path('hungry/', include('api.urls')),
-    re_path(r'media/(?P<path>.*)$',serve,{'document_root':settings.MEDIA_ROOT}),
+
 ]
