@@ -19,6 +19,7 @@ class Dish(models.Model):
     Ingredients = models.CharField(max_length=50)
     DishType = models.ForeignKey(
         'Category', to_field="CategoryID", on_delete=models.PROTECT)
+    DishImageURL = models.CharField(max_length=1000, null=True)
 
     
     def __str__(self):
@@ -29,8 +30,8 @@ class OrderDetail(models.Model):
     OrderID = models.ForeignKey('OrderTable',to_field="OrderID",on_delete=models.CASCADE)
     DishID = models.ForeignKey('Dish',to_field="DishID",on_delete=models.CASCADE)
     DishAmount = models.IntegerField(default=1)
-    CompleteStatus = models.IntegerField(default=0, choices=((0, 'Not taking the order'), (1, 'Being prepared'), 
-                                        (2, 'Waiting for serving'), (3, 'Serving completed')))
+    CompleteStatus = models.IntegerField(default=0, choices=((0, 'Not taking the order'), (1, 'Dish completed, waiting for serving'), 
+                                        (2, 'Serving completed')))
     
 
     def __str__(self):
@@ -60,4 +61,5 @@ class Table(models.Model):
     
 
 
-    
+
+

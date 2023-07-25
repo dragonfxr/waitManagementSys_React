@@ -175,7 +175,7 @@ class OrderDetailList(APIView):
 
     @swagger_auto_schema(
     operation_summary = 'Get all the order items list',
-    operation_description = 'choices=[0: Not taking the order], [1:Being prepared], [2: Waiting for serving], [3:Serving completed]'
+    operation_description = 'choices=[0: Not taking the order], [2: Dish completed, waiting for serving], [3:Serving completed]'
     )
     def get(self, request, format=None):
         orderdetails = OrderDetail.objects.all()
@@ -185,7 +185,7 @@ class OrderDetailList(APIView):
 
     @swagger_auto_schema(
     operation_summary = 'Add a list of order item to the order item list',
-    operation_description = 'choices=[0: Not taking the order], [1:Being prepared], [2: Waiting for serving], [3:Serving completed]',
+    operation_description = 'choices=[0: Not taking the order], [2: Dish completed, waiting for serving], [3:Serving completed]',
     request_body = OrderDetailSerializer,
     responses = {201: OrderDetailSerializer()}
     )
@@ -210,7 +210,7 @@ class OrderDetailDetail(APIView):
             raise Http404
     @swagger_auto_schema(
     operation_summary = 'Input a OrderItemID, then you will get a order detail',
-    operation_description = 'choices=[0: Not taking the order], [1:Being prepared], [2: Waiting for serving], [3:Serving completed]'
+    operation_description = 'choices=[0: Not taking the order], [2: Dish completed, waiting for serving], [3:Serving completed]'
     )
     def get(self, request, pk, format=None):       
         orderdetail = self.get_object(pk)
@@ -219,7 +219,7 @@ class OrderDetailDetail(APIView):
 
     @swagger_auto_schema(
     operation_summary = 'Input a order item then update it',
-    operation_description = 'choices=[0: Not taking the order], [1:Being prepared], [2: Waiting for serving], [3:Serving completed]',
+    operation_description = 'choices=[0: Not taking the order], [2: Dish completed, waiting for serving], [3:Serving completed]',
     request_body = OrderDetailSerializer,
     responses = {201: OrderDetailSerializer()}
     )
@@ -401,3 +401,21 @@ class TableList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+## Filter Table
+class FilterTable(APIView):
+
+    def get_object_table(self, pk):
+        try:
+            return Table.objects.get(pk=pk)
+        except Table.DoesNotExist:
+            raise Http404    
+    @swagger_auto_schema(
+    operation_summary = 'Look up all the unpaid order with this table ID',
+    operation_description = 'Input an tableID, then get the order not paid'
+    )
+    def get(self, request, pk, format=None):
+        table = self.get_object_table(pk)
+        ordertables = OrderTable.objects.filter(TableID = table.TableID, PayStatus=False)
+        serializer = OrderTableSerializer(ordertables, many=True)
+        return Response(serializer.data)

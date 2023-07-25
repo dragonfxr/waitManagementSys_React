@@ -18,6 +18,7 @@ urlpatterns = [
     re_path(r'^update/$', views.UpdateOrder.as_view()),
     re_path(r'^filter_dish/(?P<pk>[0-9]+)$', views.FilterDish.as_view()),
     re_path(r'^filter_order/(?P<pk>[0-9]+)$', views.FilterOrder.as_view()),
+    re_path(r'^filter_table/(?P<pk>[0-9]+)$', views.FilterTable.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
