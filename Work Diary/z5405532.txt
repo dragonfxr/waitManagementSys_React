@@ -34,3 +34,9 @@ Updated sprint 2
 
 Week 8:
 Apis finished, so frontend team start to implement the front end program. (Demo 2 on Thursday)
+Demo 2 was all good, so we have set up the goal for next week.
+
+Week 9:
+Backend team created some more new apis according to our need.
+Finish the checkout system.
+Fixed some bugs.
