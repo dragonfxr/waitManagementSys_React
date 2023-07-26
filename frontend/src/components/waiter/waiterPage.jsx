@@ -187,6 +187,7 @@ function WaiterPage() {
         <Layout style={{ marginLeft: 200 }}>
           <Header style={{ background: '#fff', paddingLeft: 10 }}>
             <h2>Staff Mangement System</h2>
+            {/* <h4>Only unpaid orders will be</h4> */}
             <Button
               style={{ position: "absolute", right: "180px", top: "10px" }}
               type="primary"
@@ -199,6 +200,7 @@ function WaiterPage() {
           </Header>
 
           <Content style={{ margin: '24px 16px 0', overflow: 'initial', marginLeft: 24 }}>
+            <p>Only unpaid bills will shown on this page.</p>
             <div style={{ padding: 24, background: '#fff', textAlign: 'center' }}>
               <Outlet />
               <List
@@ -222,7 +224,7 @@ function WaiterPage() {
                           <h4>Pay Status: <span style={{ color: order.PayStatus ? 'black' : 'red' }}>{order.PayStatus ? 'Paid' : 'Unpaid'} </span>
                           <Popconfirm
                             title="Check out!"
-                            description="Are you sure to checkout this order? This order will be hid"
+                            description="Are you sure to checkout this order? This order will be removed."
                             onConfirm={() => checkOut(order)}
                             okText="Yes"
                             cancelText="No"
@@ -240,8 +242,8 @@ function WaiterPage() {
                                 <Card style={{ width: '40vw', textAlign: 'Left' }}>
                                   <h4 style={{ margin: 0 }}>Dish Name: {dishesDict[dish.DishID]}</h4>
                                   <h4 style={{ margin: 0 }}>Amount: {dish.DishAmount}</h4>
-                                  <h4 style={{ margin: 0 }}><span style={{ color: dish.CompleteStatus ? 'green' : 'red' }}>Status: {dish.CompleteStatus ? 'Served' : 'Preparing'}</span></h4>
-                                  <Button type="primary" onClick={() => { serveDish(order, dish.OrderDetailID) }}>Serve</Button>
+                                  <h4 style={{ margin: 0 }}>Status: <span style={{ color: dish.CompleteStatus===2 ? 'green' : dish.CompleteStatus===1 ? 'blue' : 'red' }}>{dish.CompleteStatus===2 ? 'Served' : dish.CompleteStatus===1 ? 'Ready': 'Preparing in the Kitchen'}</span></h4>
+                                  <Button type="primary" onClick={() => { serveDish(order, dish.OrderDetailID) }} disabled={dish.CompleteStatus === 0 || dish.CompleteStatus === 2}>Serve</Button>
                                 </Card>
                               </List.Item>
                             )}
