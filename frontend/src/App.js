@@ -8,6 +8,7 @@ import KitchenPage from './components/kitchen/kitchenPage';
 import CategoryPage from './components/customer/categorypage';
 import EditCategoryPage from './components/manager/editCategory';
 import PaySuccess from './components/customer/paySuccess';
+import HistoryOrderPage from './components/manager/histOrder';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path='/manager' element={<ManagerPage />} >
           <Route path=':categoryId' element={<EditCategoryPage />} />
         </Route>
+        <Route path='history' element={<HistoryOrderPage />} />
         <Route path='/customer/:tableId' element={<CustomerPage />}>
           <Route path='menu/:categoryId' element={<CategoryPage />} />
           <Route path='success' element={<PaySuccess />} />

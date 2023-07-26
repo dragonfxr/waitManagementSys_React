@@ -187,7 +187,6 @@ function WaiterPage() {
         <Layout style={{ marginLeft: 200 }}>
           <Header style={{ background: '#fff', paddingLeft: 10 }}>
             <h2>Staff Mangement System</h2>
-            {/* <h4>Only unpaid orders will be</h4> */}
             <Button
               style={{ position: "absolute", right: "180px", top: "10px" }}
               type="primary"

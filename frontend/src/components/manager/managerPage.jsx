@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Menu, Layout, Button, Modal, Input, message } from 'antd';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { HomeOutlined, EditOutlined, DeleteOutlined, ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
+import { HomeOutlined, EditOutlined, DeleteOutlined, ArrowUpOutlined, ArrowDownOutlined, SearchOutlined } from '@ant-design/icons';
 import './manager.css';
 import EditCategoryPage from "./editCategory";
 
@@ -106,41 +106,6 @@ function ManagerPage() {
     items[index] = items[index + 1]
     items[index + 1] = item;
 
-    // const deleteAllCategories = async () => {
-    //   for (const item of items) {
-    //     console.log(item);
-    //     const response = await fetch(`http://localhost:8000/hungry/categories/${item.CategoryID}`, {
-    //       method: 'DELETE',
-    //     });
-
-    //     if (!response.ok) {
-    //       console.error(`Failed to delete category ${item.CategoryID}`);
-    //     }
-    //   }
-    // };
-
-    // const postCategories = async () => {
-    //   for (const item of items) {
-    //     const response = await fetch('http://localhost:8000/hungry/categories/', {
-    //       method: 'POST',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //       body: JSON.stringify({
-    //         CategoryID: item.CategoryID,
-    //         CategoryName: item.CategoryName
-    //       })
-    //     });
-    //     console.log(response.json())
-    //     if (!response.ok) {
-    //       console.error(`Failed to post category ${item.CategoryID}`);
-    //     }
-    //   }
-    // };
-
-    // await deleteAllCategories();
-    // await postCategories();
-
     setCategories(items);
 
   }
@@ -237,6 +202,9 @@ function ManagerPage() {
               onClick={() => navigate(`/`)}
               title="Go back to home page"
             />
+            <Button type="primary" style={{ marginLeft: "20px" }} icon={<SearchOutlined />} onClick={() => navigate('/history')}>
+              History Bills
+            </Button>
           </Header>
           <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
             <div style={{ padding: 24, background: '#fff', textAlign: 'center' }}>
