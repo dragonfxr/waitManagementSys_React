@@ -14,11 +14,11 @@
   }
   
   .waiter-page-button.red {
-    background-color: red;
+    background-color: #ff0000;
     animation: flashRed 2s infinite;
   }
   
   .waiter-page-button.green {
-    background-color: green;
-  }
+    background-color: #199949;
+ }
   

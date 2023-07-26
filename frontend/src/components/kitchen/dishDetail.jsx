@@ -81,7 +81,7 @@ function DishDetail({ dish, order }) {
                     <div><strong>{detail.DishName}</strong></div>
                     <div>Amount: {dish.DishAmount}</div>
                     <div>Ingredient: {detail.Ingredients}</div>
-                    <div>Status: {dish.CompleteStatus}</div>
+                    <div>Status: {dish.CompleteStatus === 0 ? 'Preparing' : 'Completed'}</div>
 
                 </div>
                 <Button onClick={() => {

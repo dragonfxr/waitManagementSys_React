@@ -10,17 +10,16 @@ function KitchenPage() {
 
     const fetchOrdersData = async () => {
         const response = await fetch('http://localhost:8000/hungry/orders/');
-
         const data = await response.json();
-
         const reversedData = [...data].reverse();
-
         setOrderData(reversedData);
-    }
-
-    useEffect(() => {
-        fetchOrdersData();
-    }, []);
+      };
+    
+      useEffect(() => {
+        const fetchDataInterval = setInterval(fetchOrdersData, 3000);
+    
+        return () => clearInterval(fetchDataInterval);
+      }, []);
 
     const formatDate = (time) => {
         const date = new Date(time);
@@ -29,8 +28,6 @@ function KitchenPage() {
 
         return formattedDate;
     }
-
-
 
     return (
         <>
@@ -51,7 +48,7 @@ function KitchenPage() {
                                         {order.DishList.every(dish => dish.CompleteStatus !== 0)
                                             ? <p style={{ fontWeight: "bold" }}>All dishes completed</p>
                                             : order.DishList.map(dish => (
-                                                dish.CompleteStatus === 0
+                                                dish.CompleteStatus === 0 || dish.CompleteStatus === 1
                                                     ? <DishDetail key={dish.DishID} order={order} dish={dish} />
                                                     : null
                                             ))

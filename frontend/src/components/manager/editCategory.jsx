@@ -40,7 +40,7 @@ function EditCategoryPage({ showAllDishes }) {
     const showAddDishes = () => {
         setIsAddOpen(true);
         setNewCategory(null);
-        console.log(isAddOpen);
+        // console.log(isAddOpen);
     }
 
     const editOk = () => {
@@ -110,13 +110,13 @@ function EditCategoryPage({ showAllDishes }) {
 
 
     const modifyDish = async (dishId) => {
-        console.log({
-            DishName: dishName,
-            Price: dishPrice,
-            Description: dishDescription,
-            Ingredients: dishIngredients,//price not necessary
-            DishType: dishCategory
-        })
+        // console.log({
+        //     DishName: dishName,
+        //     Price: dishPrice,
+        //     Description: dishDescription,
+        //     Ingredients: dishIngredients,//price not necessary
+        //     DishType: dishCategory
+        // })
         const response = await fetch(`http://localhost:8000/hungry/dishes/${dishId}`, {
             method: 'PUT',
             headers: {
@@ -158,7 +158,7 @@ function EditCategoryPage({ showAllDishes }) {
         console.log("category: ", newCategory);
     }, [newCategory]);
 
-    console.log(dishes);
+    // console.log(dishes);
 
     return (
         <>
