@@ -32,3 +32,8 @@ Week7:
 Week8:
 1. Complete and test all api for the user stories in sprint2.
 2. Finish the demo B.
+
+Week9:
+1. Respond to front-end requests，complete table filter APIs.
+2. Fixed some bugs in the backend.
+3. Start to plan the report.
