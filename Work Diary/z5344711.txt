@@ -31,3 +31,8 @@ Week7:
 Week8:
 1. Complete the api in sprint2.
 2. Rehearsal and inish the demo B in lab.
+
+Week9:
+1. Test the all apis, including the new API for the table filter.
+2. Start to plan the report and final demo.
+3. Fixed bugs.
