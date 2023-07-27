@@ -13,13 +13,17 @@ function KitchenPage() {
         const data = await response.json();
         const reversedData = [...data].reverse();
         setOrderData(reversedData);
-      };
-    
-      useEffect(() => {
+    };
+
+    useEffect(() => {
+        fetchOrdersData();
+    }, [])
+
+    useEffect(() => {
         const fetchDataInterval = setInterval(fetchOrdersData, 3000);
-    
+
         return () => clearInterval(fetchDataInterval);
-      }, []);
+    }, []);
 
     const formatDate = (time) => {
         const date = new Date(time);

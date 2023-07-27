@@ -117,7 +117,7 @@ function CategoryPage() {
                                 }}>
                                     <img
                                         alt={dish.DishName}
-                                        src={'/ayouh.jpeg'}
+                                        src={dish.DishImageURL}
                                         style={{ height: '200px', objectFit: 'cover' }}
                                     />
                                     <div style={{ marginRight: '40px', marginLeft: '40px' }}>

@@ -190,7 +190,7 @@ function DishDetail({ dish, orderData, updateOrderData, updateTotalPrice }) {
                 }}>
                     <img
                         alt={dish.DishName}
-                        src={'/ayouh.jpeg'}
+                        src={dish.ImageDishURL}
                         style={{ height: '150px', objectFit: 'cover', marginRight: '30px' }}
                     />
                     <div style={{ marginRight: '30px' }}>

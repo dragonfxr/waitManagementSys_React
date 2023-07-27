@@ -73,8 +73,8 @@ function DishDetail({ dish, order }) {
                 justifyContent: 'center'
             }}>
                 <img
-                    alt={dish.DishName}
-                    src={'/ayouh.jpeg'}
+                    alt={detail.DishName}
+                    src={detail.DishImageURL}
                     style={{ height: '150px', objectFit: 'cover', marginRight: '30px' }}
                 />
                 <div style={{ marginRight: '30px' }}>

@@ -14,6 +14,8 @@ function EditCategoryPage({ showAllDishes }) {
     const [dishPrice, setDishPrice] = useState(null)
     const [dishIngredients, setDishIngredients] = useState(null)
     const [dishCategory, setDishCategory] = useState(null);
+    const [dishImage, setDishImage] = useState(null);
+
 
     // Add new dish information:
     const [newCategory, setNewCategory] = useState('');
@@ -21,7 +23,7 @@ function EditCategoryPage({ showAllDishes }) {
     const [newDescription, setNewDescription] = useState(null)
     const [newPrice, setNewPrice] = useState(null)
     const [newIngredients, setNewIngredients] = useState(null)
-
+    const [newImage, setNewImage] = useState(null)
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [isAddOpen, setIsAddOpen] = useState(false);
     let categoryInfo = useParams();
@@ -127,6 +129,7 @@ function EditCategoryPage({ showAllDishes }) {
                 Price: Number(dishPrice),
                 Description: dishDescription,
                 Ingredients: dishIngredients,//price not necessary
+                DishImageURL: dishImage,
                 DishType: dishCategory,
             })
         });
@@ -146,6 +149,7 @@ function EditCategoryPage({ showAllDishes }) {
                 Price: Number(newPrice),
                 Description: newDescription,
                 Ingredients: newIngredients,//price not necessary
+                DishImageURL: newImage,
                 DishType: newCategory,
             })
         });
@@ -174,7 +178,7 @@ function EditCategoryPage({ showAllDishes }) {
                             }}>
                                 <img
                                     alt={dish.DishName}
-                                    src={'/ayouh.jpeg'}
+                                    src={dish.DishImageURL}
                                     style={{ height: '200px', objectFit: 'cover' }}
                                 />
                                 <div style={{ marginRight: '40px', marginLeft: '40px' }}>
@@ -274,6 +278,17 @@ function EditCategoryPage({ showAllDishes }) {
                                             ]}
                                         >
                                             <Input placeholder={currentDish?.Ingredients} onChange={e => setDishIngredients(e.target.value)} />
+                                        </Form.Item>
+
+                                        <Form.Item
+                                            label="Dish Image URL"
+                                            rules={[
+                                                {
+                                                    required: true
+                                                },
+                                            ]}
+                                        >
+                                            <Input placeholder={currentDish?.DishImageURL} onChange={e => setDishImage(e.target.value)} />
                                         </Form.Item>
 
                                         <Form.Item
@@ -383,6 +398,17 @@ function EditCategoryPage({ showAllDishes }) {
                         ]}
                     >
                         <Input placeholder={"Ingredients"} onChange={e => setNewIngredients(e.target.value)} />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Dish Image URL"
+                        rules={[
+                            {
+                                required: true
+                            },
+                        ]}
+                    >
+                        <Input placeholder={"Image url"} onChange={e => setNewImage(e.target.value)} />
                     </Form.Item>
 
                     <Form.Item
