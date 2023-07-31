@@ -34,15 +34,19 @@ Please do the following commands:
 (b)Update the model:  
 `cd backend`
 
+`python manage.py makemigrations` or
 `python3 manage.py makemigrations`
 
 (c)Migrate settings:  
+`python manage.py migrate` or
 `python3 manage.py migrate`
 
 (d)Create superuser
+`python manage.py createsuperuser` or
 `python3 manage.py createsuperuser`
 
 (e)Run server:  
+`python manage.py runserver` or
 `python3 manage.py runserver`
 
 read backend in Swagger: http://127.0.0.1:8000/doc/
