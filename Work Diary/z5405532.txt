@@ -40,3 +40,9 @@ Week 9:
 Backend team created some more new apis according to our need.
 Finish the checkout system.
 Fixed some bugs.
+Finished kitchen system and the 
+
+Week 10:
+We tried to clean the database and fill in with brand new data.
+Testing, including testing on Vlab.
+Start writing the report and preparing for the final demo.
