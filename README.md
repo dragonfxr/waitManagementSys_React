@@ -29,7 +29,7 @@ Please do the following commands:
 
 `pip install drf-writable-nested`  
 
-`pip install django-filter` (installing this step would update django version to 4.0, we need to install django==3.1 again and ignore error)  
+`pip install django-filter` (installing this step would update django version to 4.0, we need to install django==3.2 again and ignore error)  
 
 so do the following
 `pip install django==3.2`  
