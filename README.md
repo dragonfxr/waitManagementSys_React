@@ -31,6 +31,9 @@ Please do the following commands:
 
 `pip install django-filter` (installing this step would update django version to 4.0, we need to install django==3.1 again and ignore error)  
 
+so do the following
+`pip install django==3.2`  
+
 (b)Update the model:  
 `cd backend`
 
