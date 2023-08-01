@@ -36,6 +36,8 @@ so do the following
 `python manage.py createsuperuser` or
 `python3 manage.py createsuperuser`
 
+Then just follow the instruction provided by the command line to create a user.
+
 (e)Run server:  
 `python manage.py runserver` or
 `python3 manage.py runserver`
