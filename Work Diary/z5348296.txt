@@ -27,3 +27,11 @@ week 8:
 Updating order in manager system completed.
 Shopping chart functionality completed.
 Voucher code system completed.
+
+week 9:
+Kitchen system completed.
+Image url placeholder bug fixed.
+
+week 10:
+Final demo plan completed.
+README updated.
