@@ -189,8 +189,8 @@ function DishDetail({ dish, orderData, updateOrderData, updateTotalPrice }) {
                     justifyContent: 'center'
                 }}>
                     <img
-                        alt={dish.DishName}
-                        src={dish.ImageDishURL}
+                        alt={detail.DishName}
+                        src={detail.DishImageURL}
                         style={{ height: '150px', objectFit: 'cover', marginRight: '30px' }}
                     />
                     <div style={{ marginRight: '30px' }}>

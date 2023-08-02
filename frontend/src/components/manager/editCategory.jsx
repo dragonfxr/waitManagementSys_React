@@ -36,6 +36,7 @@ function EditCategoryPage({ showAllDishes }) {
         setDishDescription(dish.Description); // Set the dish description as the default value
         setDishIngredients(dish.Ingredients); // Set the dish ingredients as the default value
         setDishCategory(dish.DishType); // Set the dish category as the default value
+        setDishImage(dish.DishImageURL);
         setIsEditOpen(true);
     };
 
