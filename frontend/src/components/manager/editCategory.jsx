@@ -3,19 +3,19 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-
+// This component is the main part and logic of the mangager page
 function EditCategoryPage({ showAllDishes }) {
     const [dishes, setDishes] = useState([]);
     const [currentDish, setCurrentDish] = useState(null); //last id
     const [categories, setCategories] = useState([]);
-    // edit information:
+
+    // edit dish information:
     const [dishName, setDishName] = useState(null)
     const [dishDescription, setDishDescription] = useState(null)
     const [dishPrice, setDishPrice] = useState(null)
     const [dishIngredients, setDishIngredients] = useState(null)
     const [dishCategory, setDishCategory] = useState(null);
     const [dishImage, setDishImage] = useState(null);
-
 
     // Add new dish information:
     const [newCategory, setNewCategory] = useState('');
@@ -24,8 +24,11 @@ function EditCategoryPage({ showAllDishes }) {
     const [newPrice, setNewPrice] = useState(null)
     const [newIngredients, setNewIngredients] = useState(null)
     const [newImage, setNewImage] = useState(null)
+
+    // pop up windows
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [isAddOpen, setIsAddOpen] = useState(false);
+
     let categoryInfo = useParams();
 
     const showEditDishes = (dish) => {
@@ -43,7 +46,6 @@ function EditCategoryPage({ showAllDishes }) {
     const showAddDishes = () => {
         setIsAddOpen(true);
         setNewCategory(null);
-        // console.log(isAddOpen);
     }
 
     const editOk = () => {
@@ -51,7 +53,6 @@ function EditCategoryPage({ showAllDishes }) {
     };
     const editCancel = () => {
         setIsEditOpen(false);
-        // setCurrentDish(null);
     };
 
     const addOk = () => {
@@ -69,6 +70,7 @@ function EditCategoryPage({ showAllDishes }) {
         message.success("You have deleted this dish!")
     }
 
+    // renders and update new dish details when the popup window has been closed
     useEffect(() => {
         const fetchCategoryData = async () => {
             const response = await fetch('http://localhost:8000/hungry/categories/', {
@@ -80,6 +82,7 @@ function EditCategoryPage({ showAllDishes }) {
         fetchCategoryData();
     }, [isAddOpen, isEditOpen])
 
+    // renders and update new dish details when the popup window has been closed or user clicked "show all dishes" or some dishes have been deleted
     useEffect(() => {
         const fetchMenuData = async () => {
             if (showAllDishes) {
@@ -93,8 +96,7 @@ function EditCategoryPage({ showAllDishes }) {
         fetchMenuData();
     }, [showAllDishes, isAddOpen, isEditOpen, currentDish])
 
-
-    // fetch dishes with specific categories
+    // fetch dishes with specific categories. Renders and update new dish details when the popup window has been closed
     useEffect(() => {
         const fetchDishData = async () => {
             const response = await fetch(`http://localhost:8000/hungry/filter_dish/${categoryInfo.categoryId}`, {
@@ -109,15 +111,7 @@ function EditCategoryPage({ showAllDishes }) {
     }, [categoryInfo.categoryId, isEditOpen, isAddOpen, currentDish])
 
 
-
     const modifyDish = async (dishId) => {
-        // console.log({
-        //     DishName: dishName,
-        //     Price: dishPrice,
-        //     Description: dishDescription,
-        //     Ingredients: dishIngredients,//price not necessary
-        //     DishType: dishCategory
-        // })
         const response = await fetch(`http://localhost:8000/hungry/dishes/${dishId}`, {
             method: 'PUT',
             headers: {
@@ -127,7 +121,7 @@ function EditCategoryPage({ showAllDishes }) {
                 DishName: dishName,
                 Price: Number(dishPrice),
                 Description: dishDescription,
-                Ingredients: dishIngredients,//price not necessary
+                Ingredients: dishIngredients,
                 DishImageURL: dishImage,
                 DishType: dishCategory,
             })
@@ -147,7 +141,7 @@ function EditCategoryPage({ showAllDishes }) {
                 DishName: newName,
                 Price: Number(newPrice),
                 Description: newDescription,
-                Ingredients: newIngredients,//price not necessary
+                Ingredients: newIngredients,
                 DishImageURL: newImage,
                 DishType: newCategory,
             })
@@ -160,8 +154,6 @@ function EditCategoryPage({ showAllDishes }) {
     useEffect(() => {
         console.log("category: ", newCategory);
     }, [newCategory]);
-
-    // console.log(dishes);
 
     return (
         <>

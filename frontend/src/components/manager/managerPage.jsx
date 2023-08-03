@@ -5,6 +5,7 @@ import { HomeOutlined, EditOutlined, DeleteOutlined, ArrowUpOutlined, ArrowDownO
 import './manager.css';
 import EditCategoryPage from "./editCategory";
 
+// This component is handling and displaying the side bar
 function ManagerPage() {
   const location = useLocation()
   const { Header, Content, Footer, Sider } = Layout;
@@ -16,6 +17,7 @@ function ManagerPage() {
   const [visible, setVisible] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
+  // Three functions to handle the popup window
   const showModal = () => {
     setVisible(true);
     setInputValue('');
@@ -32,6 +34,7 @@ function ManagerPage() {
     setInputValue('');
   };
 
+  // get existing category names
   const fetchCategoryData = async () => {
     const response = await fetch('http://localhost:8000/hungry/categories/', {
       method: 'GET'
@@ -45,7 +48,7 @@ function ManagerPage() {
   }, [])
 
   const postCategory = async () => {
-    const geCateId = Math.floor(Math.random() * 9000) + 1000;
+    const geCateId = Math.floor(Math.random() * 9000) + 1000;// create random id for new categories
     const response = await fetch('http://localhost:8000/hungry/categories/', {
       method: 'POST',
       headers: {
@@ -90,7 +93,6 @@ function ManagerPage() {
     items[index - 1] = item;
 
     setCategories(items);
-
   }
 
   const moveDown = async (index) => {
@@ -105,9 +107,7 @@ function ManagerPage() {
     items[index + 1] = item;
 
     setCategories(items);
-
   }
-
 
   return (
     <>

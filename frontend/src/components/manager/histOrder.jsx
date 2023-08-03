@@ -3,13 +3,14 @@ import { Layout, Button, List, Card } from 'antd';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { RollbackOutlined } from '@ant-design/icons';
 
+// This component is the history order page
 function HistoryOrderPage() {
   const { Content } = Layout;
   const [orders, setOrders] = useState([]);
   const [dishes, setDishes] = useState([]);
   const navigate = useNavigate();
 
-  
+  // fetch orders when the page renders
   useEffect(() => {
     const fetchTableData = async () => {
       const response = await fetch('http://localhost:8000/hungry/orders/', {
@@ -21,6 +22,7 @@ function HistoryOrderPage() {
     fetchTableData();
   }, []);
 
+  // get all dish names
   useEffect(() => {
     const fetchAllDishes = async () => {
       const response = await fetch('http://localhost:8000/hungry/dishes/', {

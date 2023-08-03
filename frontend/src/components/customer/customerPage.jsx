@@ -14,7 +14,7 @@ function CustomerPage() {
     const [visible, setVisible] = useState(false);
     const [couponCode, setCouponCode] = useState('');
 
-
+    // render only once
     useEffect(() => {
         const fetchMenuData = async () => {
             const response = await fetch('http://localhost:8000/hungry/categories/', {
@@ -59,6 +59,8 @@ function CustomerPage() {
         });
         setIsCalling(true);
     };
+
+    // periodically update the status of the call assistance button
     const getAssistanceStatus = async () => {
         const response = await fetch(`http://localhost:8000/hungry/tables/${tableId.tableId}`, {
             method: 'GET',
@@ -84,6 +86,8 @@ function CustomerPage() {
         fetchAssistanceStatus();
     }, [tableId.tableId])
 
+
+    // Create dict for generating random vouchers
     const generateCouponCode = () => {
         const words = ['APPLE', 'APRICOT', 'AVOCADO', 'BANANA', 'BERRY', 'BLUEBERRY', 'BOYSENBERRY', 'CANTALOUPE', 'CHERRY', 'CITRUS', 'COCONUT', 'CRANBERRY', 'DATE', 'DRAGONFRUIT', 'ELDERBERRY', 'FIG', 'GRAPE', 'GRAPEFRUIT', 'GUAVA', 'KIWI', 'LEMON', 'LIME', 'LYCHEE', 'MANGO', 'MELON', 'NECTARINE', 'ORANGE', 'PAPAYA', 'PASSIONFRUIT', 'PEACH', 'PEAR', 'PERSIMMON', 'PINEAPPLE', 'PLUM', 'POMEGRANATE', 'RASPBERRY', 'STRAWBERRY', 'TANGERINE', 'WATERMELON'];
         const randomIndex = Math.floor(Math.random() * words.length);

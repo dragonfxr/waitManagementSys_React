@@ -19,6 +19,7 @@ function KitchenPage() {
         fetchOrdersData();
     }, [])
 
+    // periorically get the information of all orders
     useEffect(() => {
         const fetchDataInterval = setInterval(fetchOrdersData, 1000);
 
