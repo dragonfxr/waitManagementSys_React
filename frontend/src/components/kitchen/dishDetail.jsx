@@ -10,6 +10,7 @@ function DishDetail({ dish, order }) {
         setIsCompleted(true);
     }
 
+
     useEffect(() => {
         const fetchDishData = async () => {
             const response = await fetch(`http://localhost:8000/hungry/dishes/${dish.DishID}`, {
@@ -21,7 +22,9 @@ function DishDetail({ dish, order }) {
         }
 
         fetchDishData();
-
+        if (dish.CompleteStatus === 1) {
+            setIsCompleted(true);
+        }
     }, [dish.DishID]);
 
     if (!detail) {
