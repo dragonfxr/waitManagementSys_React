@@ -66,7 +66,7 @@ function WaiterPage() {
 
     fetchNewTableData();
 
-    const intervalId = setInterval(fetchNewTableData, 5000);
+    const intervalId = setInterval(fetchNewTableData, 2000);
 
     return () => {
       clearInterval(intervalId);
@@ -76,7 +76,6 @@ function WaiterPage() {
   // Hook to check if table data changes
   useEffect(() => {
     if (JSON.stringify(newTables) !== JSON.stringify(tables)) {
-      console.log("Changed");
       const changedElements = tables.filter(
         (currentElement, index) => JSON.stringify(currentElement.CallingWaiter) !== JSON.stringify(newTables[index].CallingWaiter)
       );
@@ -151,7 +150,6 @@ function WaiterPage() {
   for (const dish of dishes) {
     dishesDict[dish.DishID] = dish.DishName;
   }
-  // console.log(dishesDict[22]);
 
 
   return (
