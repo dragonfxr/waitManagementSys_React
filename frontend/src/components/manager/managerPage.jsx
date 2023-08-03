@@ -56,10 +56,8 @@ function ManagerPage() {
         CategoryName: `${inputValue}`,
       })
     })
-    console.log(`${categories}`);
 
     const data = await response.json()
-    console.log(data)
     if (response.ok) {
       message.success('Create category successfully!😃')
       fetchCategoryData();

@@ -20,7 +20,7 @@ function KitchenPage() {
     }, [])
 
     useEffect(() => {
-        const fetchDataInterval = setInterval(fetchOrdersData, 3000);
+        const fetchDataInterval = setInterval(fetchOrdersData, 1000);
 
         return () => clearInterval(fetchDataInterval);
     }, []);

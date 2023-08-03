@@ -112,7 +112,7 @@ function CartEdit({ orderData, updateOrderData }) {
                     handleOk();
                     postOrderData();
                 }}
-                onCancel={handleCancel} okText="Check Out">
+                onCancel={handleCancel} okText="Send to kitchen">
                 {orderData.map((dish) => (
                     <DishDetail key={dish.DishID} dish={dish} orderData={orderData} updateOrderData={updateOrderData} updateTotalPrice={updateTotalPrice} totalPrice={totalPrice} />
 

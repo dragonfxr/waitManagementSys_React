@@ -14,6 +14,7 @@ function WaiterPage() {
   // const location = useLocation();
   const navigate = useNavigate();
 
+  //get all table status(whether is call for assistance or not)
   const changeTableStatus = async (table) => {
     await fetch(`http://localhost:8000/hungry/tables/${table.TableID}`, {
       method: 'PUT',
@@ -27,6 +28,7 @@ function WaiterPage() {
     });
   };
 
+  // change complete status to paid
   const checkOut = async (order) => {
     const dishList = order.DishList;
     for (let i = 0; i < dishList.length; i++){
@@ -66,7 +68,7 @@ function WaiterPage() {
 
     fetchNewTableData();
 
-    const intervalId = setInterval(fetchNewTableData, 2000);
+    const intervalId = setInterval(fetchNewTableData, 1000);
 
     return () => {
       clearInterval(intervalId);
@@ -129,8 +131,8 @@ function WaiterPage() {
   useEffect(() => {
     fetchAllOrders();
 
-    // Fetch orders every 5 seconds
-    const intervalId = setInterval(fetchAllOrders, 5000);
+    // Fetch orders every second
+    const intervalId = setInterval(fetchAllOrders, 1000);
 
     return () => clearInterval(intervalId);
   }, []);

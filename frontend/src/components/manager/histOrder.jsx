@@ -4,7 +4,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { RollbackOutlined } from '@ant-design/icons';
 
 function HistoryOrderPage() {
-  const { Header, Content, Footer, Sider } = Layout;
+  const { Content } = Layout;
   const [orders, setOrders] = useState([]);
   const [dishes, setDishes] = useState([]);
   const navigate = useNavigate();

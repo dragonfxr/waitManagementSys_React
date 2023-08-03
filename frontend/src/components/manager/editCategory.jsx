@@ -61,8 +61,6 @@ function EditCategoryPage({ showAllDishes }) {
         setIsAddOpen(false);
     };
 
-
-
     const deleteDish = async (dish) => {
         await fetch(`http://localhost:8000/hungry/dishes/${dish.DishID}`, {
             method: 'DELETE'

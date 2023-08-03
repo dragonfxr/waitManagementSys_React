@@ -69,7 +69,7 @@ function CustomerPage() {
 
     useEffect(() => {
         getAssistanceStatus();
-        const intervalId = setInterval(getAssistanceStatus, 5000);
+        const intervalId = setInterval(getAssistanceStatus, 1000);
         return () => clearInterval(intervalId);
     }, []);
 
