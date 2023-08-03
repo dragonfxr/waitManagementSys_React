@@ -37,3 +37,8 @@ Week9:
 1. Respond to front-end requests，complete table filter APIs.
 2. Fixed some bugs in the backend.
 3. Start to plan the report.
+
+Week10:
+1. Final demo Division of tasks and rehearsal.
+2. Final report Division of tasks.
+3. 
