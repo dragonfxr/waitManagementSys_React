@@ -36,3 +36,8 @@ Week9:
 1. Test the all apis, including the new API for the table filter.
 2. Start to plan the report and final demo.
 3. Fixed bugs.
+
+Week10:
+1. Plan the final demo and finish it.
+2. Discuss everyone's task of report.
+3. Check if there is bug in the whole system.
