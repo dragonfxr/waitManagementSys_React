@@ -11,7 +11,7 @@ from .serializers import (CategorySerializer, DishSerializer,
                           OrderDetailSerializer, OrderTableSerializer,
                           TableSerializer)
 
-# ------ Category API ------
+## ------ Category API ------
 
 class CategoryList(APIView):
 
@@ -147,7 +147,7 @@ class DishDetail(APIView):
 
 
 # ------ Filter Dish -----
-
+  ## Get a list of dishes within the same category
 class FilterDish(APIView):
 
     def get_object_category(self, pk):
@@ -307,7 +307,7 @@ class OrderTableDetail(APIView):
 
 ## Filter Order
 class FilterOrder(APIView):
-
+  ## Get all the dishes of the same order
     def get_object_order(self, pk):
         try:
             return OrderTable.objects.get(pk=pk)
@@ -324,7 +324,7 @@ class FilterOrder(APIView):
         return Response(serializer.data)
 
 
-
+## Add a list of order details to the order list
 class UpdateOrder(APIView):
     @swagger_auto_schema(
     operation_summary = 'Add a list of order item to the order item list',
@@ -341,7 +341,7 @@ class UpdateOrder(APIView):
 
 
 class TableDetail(APIView):
-
+## table ID and table status
 
     def get_object(self, pk):
         try:
@@ -405,6 +405,7 @@ class TableList(APIView):
 ## Filter Table
 class FilterTable(APIView):
 
+  ## Get the order with the specified tableID which is not paid
     def get_object_table(self, pk):
         try:
             return Table.objects.get(pk=pk)
