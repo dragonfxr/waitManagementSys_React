@@ -39,5 +39,7 @@ Week8:
 Week9:
 1. Complete table filter APIs
 
-
+Week10:
+1. Write user manual
+2. Write the implementation challenge
 
