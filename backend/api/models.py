@@ -4,6 +4,8 @@ from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
 
+
+## Category model and fields
 class Category(models.Model):
     CategoryID = models.IntegerField(primary_key=True)
     CategoryName = models.CharField(max_length=20)
@@ -11,6 +13,8 @@ class Category(models.Model):
     def __str__(self):
         return self.CategoryName
 
+
+## Dish model and fields
 class Dish(models.Model):
     DishID = models.AutoField(primary_key=True)
     DishName = models.CharField(max_length=20)
@@ -25,6 +29,7 @@ class Dish(models.Model):
     def __str__(self):
         return self.DishName
 
+## OrderDetail model and fields
 class OrderDetail(models.Model):
     OrderDetailID = models.IntegerField(primary_key=True)
     OrderID = models.ForeignKey('OrderTable',to_field="OrderID",on_delete=models.CASCADE)
@@ -37,7 +42,7 @@ class OrderDetail(models.Model):
     def __str__(self):
         return "Order Dish Id:" + str(self.OrderDetailID)
 
-
+## OrderTable model and fields
 class OrderTable(models.Model):
     OrderID = models.AutoField(primary_key=True)
     TableID = models.ForeignKey('Table', to_field="TableID", on_delete=models.CASCADE)
@@ -51,7 +56,7 @@ class OrderTable(models.Model):
     def __str__(self):
         return 'Order: ' + str(self.OrderID)
 
-
+## Table model and fields
 class Table(models.Model):
     TableID = models.IntegerField(primary_key=True)
     CallingWaiter = models.BooleanField(default=False)
