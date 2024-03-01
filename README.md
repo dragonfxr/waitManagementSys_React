@@ -4,6 +4,9 @@ created by GitHub Classroom
 # Project Description:
 The project is a cutting-edge waiting management system tailored for the restaurant industry, designed to enhance service efficiency, reduce labor costs, and increase customer satisfaction. It offers a new dining experience by allowing customers to select tables, browse menus, and receive personalized dish recommendations through a self-service terminal. Customers can order directly, request waiter assistance, and pay without waiting, streamlining the dining process. For restaurants, it optimizes order management, improves efficiency, provides valuable data insights for refining operations, and reduces miscommunication in the kitchen. The system stands out for its user-friendly interface, efficient service, and continuous innovation, aiming to help the restaurant industry.
 
+## UI Overview:
+
+
 # How to run/contribute
 
 Note: The swagger library is not suitable for Django 4. x and django-restframework>=3.11, so we need to configure as follows:
