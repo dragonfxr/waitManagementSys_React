@@ -1,10 +1,11 @@
 # capstone-project-9900h16aareyouhungry
-capstone-project-9900h16aareyouhungry created by GitHub Classroom
+created by GitHub Classroom
 
 Note: The swagger library is not suitable for Django 4. x and django-restframework>=3.11, so we need to configure as follows:
 Django              3.2
 djangorestframework 3.12.0
- 
+
+# How to run/contribute
 ## 1. Backend Configuration
 (a)Install some required Python libraries:  
 `pip install django==3.2`  
