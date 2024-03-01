@@ -15,7 +15,28 @@ Here's a screenshot of the manager interface.
 
 We also have kitchen interface and waiter interface.
 
-# How to run/contribute
+## Project Features:
+- Offers a new dining experience with self-service table selection and menu browsing.
+- Allows customers to order food, get their bill, and pay without waiter assistance, saving time.
+- Optimizes order management and delivery processes for restaurants.
+- Improves kitchen staff efficiency by providing detailed order information, reducing miscommunication.
+- Features a user-friendly interface, popular menu recommendations, and efficient order management.
+
+## Project Features:
+- HTML/CSS
+- JavaScript
+- Python
+- React
+- React Router
+- Ant Design
+- Django
+- Django Rest Framework
+- Django-scols-headers
+- Drf-yasg2
+- Drf-writable nested
+- Django-filter
+  
+# Installation and Running
 
 Note: The swagger library is not suitable for Django 4. x and django-restframework>=3.11, so we need to configure as follows:
 Django              3.2
@@ -80,4 +101,10 @@ read backend doc in Swagger: http://127.0.0.1:8000/doc/
 
 **(d) Start frontend:**  
 `npm start`
+
+
+# How to contribute
+The project is still at a starting stage, so contributions are always welcome.  
+
+**Fork and clone the repo**
 
