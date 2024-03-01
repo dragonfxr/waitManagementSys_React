@@ -5,6 +5,8 @@ created by GitHub Classroom
 The project is a cutting-edge waiting management system tailored for the restaurant industry, designed to enhance service efficiency, reduce labor costs, and increase customer satisfaction. It offers a new dining experience by allowing customers to select tables, browse menus, and receive personalized dish recommendations through a self-service terminal. Customers can order directly, request waiter assistance, and pay without waiting, streamlining the dining process. For restaurants, it optimizes order management, improves efficiency, provides valuable data insights for refining operations, and reduces miscommunication in the kitchen. The system stands out for its user-friendly interface, efficient service, and continuous innovation, aiming to help the restaurant industry.
 
 ## UI Overview:
+Here's a screenshot of the customer interface. Customers can add dishes to the cart or change quantities by clicking on the buttons that each dish belongs to.
+![image](https://github.com/dragonfxr/waitManagementSys_React/assets/112178497/4ec0ee4b-99ec-4009-850e-511b12e4647d)
 
 
 # How to run/contribute
